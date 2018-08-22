@@ -1,0 +1,27 @@
+body {
+  background: #99ddee;
+  color: #ffffff;
+  padding: 30px;
+}
+
+h1 {
+  font-size: 48px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+p {
+  font-size: 16px;
+  text-align: center;
+}
+
+#divImage {
+  background-image: url('http://localhost:3000/vim_logo.png');
+  background-repeat: no-repeat;
+  background-color: #ffffff;
+  height: 75vh;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+}
