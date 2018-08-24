@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Sleck</title>
+        <link rel="stylesheet" href="Sleck.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+        <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+
+        <script src="/socket.io/socket.io.js"></script>
+
+        <script>
+            var i=0;
+            function send(){
+                i++;
+                document.getElementById("inputText").value = i;
+            }
+        </script>
+
+        <script>
+            $(function(){
+                var socket = io();
+                $("form").submit(function(){
+                    socket.emit("chat message", $("#inputText").val());
+                    $("#inputText").val('hello');
+                    return false;
+                });
+            });
+        </script>
+
+        <style>
+            h1{
+                margin: 0 auto;
+                text-align: center;
+            }
+
+            #contactSpace{
+                height: 100vh;
+                width: 30%;
+                background-color: dimgrey;
+                float: left;
+            }
+
+            #commSpace{
+                height: 100vh;
+                width: 70%;
+                float: right;
+            }
+
+            #title{
+                width: 100%;
+                background-color: dimgrey;
+            }
+
+            #inputText{
+                height: 20px;
+                width: 85%;
+                margin-top: 650px;
+                margin-left: 2.5%;
+                color: indianred;
+                float: left;
+            }
+
+            #sendText{
+                border: none;
+                height: 20px;
+                width: 10%;
+                margin-top: 650px;
+                background-color: skyblue;
+                float: right;
+            }
+
+            #idList a{
+                display: block;
+            }
+        </style>
+
+    </head>
+
+
+    <body>
+
+        <div id="title">
+            <h1 >Sleck</h1>
+        </div>
+
+        <div id="contactSpace">
+            <ul id="idList">
+                <a href="">hello</a>
+                <a href="">this</a>
+                <a href="">is</a>
+                <a href="">working</a>
+            </ul>
+        </div>
+
+
+
+        <div id="commSpace">
+            <ul id="messages"></ul>
+            <form action="">
+                <input id="inputText" value="test"><button id="sendText">send</button>
+            </form>
+        </div>
+
+    </body>
+</html>
