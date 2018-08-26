@@ -1,7 +1,7 @@
 //using Socket/io to communicate through local hosts
 
 //Express initiation
-var express = require("Express");
+var express = require("express");
 var app = express();
 var server = app.listen(3000);
 
@@ -10,7 +10,7 @@ var socket = require("socket.io");
 var io = socket(server);
 
 //get the HTML file.webstie
-app.get("/socket", function(req, res){
+app.get("/", function(req, res){
     res.sendFile(__dirname + "/Slecktest.html");
 });
 
