@@ -4,20 +4,24 @@
     <title>json streaming</title>
     <meta charset='utf-8' />
   </head>
-
   <body>
     <script src='/socket.io/socket.io.js'></script>
     <script>
       var socket = io();
+
       socket.on('streamEvent', (data) => { //message emit from nodejs socket
         document.write(data.str + '<br>')
       })
-      console.log('connected to socket, info: ' + socket)
+
+      socket.on('messageEvent', (messageObj) => {
+        document.write(messageObj.author + 'br'
+          + '\t' + messageObj.text + ' ' + messageobj.date
+        )
+      })
+
+      scocket.on('clearDocument', () => {
+        document.clear()
+      })
     </script>
-    <p>hello darkness my old friend</p>
-    <pre>
-      hello darkness my old friend
-      i'm so fucking cool yea
-    </pre>
   </body>
 </html>
