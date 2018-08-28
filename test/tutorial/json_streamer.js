@@ -19,6 +19,13 @@ app.get('/', (req, res) => {
 })
 
 var printArr = ['ford', 'bmw', 'fiat', 'toyota']
+var authors  = ['Alex', 'Skylar']
+var texts    = ['how is this project going?', 'pretty shit']
+var dates    = ['yesterday 11:10pm', 'today 12:03']
+
+http.listen(3000, () => {
+  console.log('port 3000, listening ...') //if it does not work move this to the end
+})
 
 io.on('connection', (socket) => {
   console.log('socket connection has been made')
@@ -28,12 +35,9 @@ io.on('connection', (socket) => {
       str: printArr[i]
     })
   }
-
+  socket.emit('clearDocument')
+  //TODO
   socket.on('disconnect', () => {
     console.log('socket disconnected')
   })
-})
-
-http.listen(3000, () => {
-  console.log('port 3000, listening ...')
 })
