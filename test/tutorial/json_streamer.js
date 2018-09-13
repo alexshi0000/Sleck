@@ -1,12 +1,3 @@
-/*
- * since the node modules take up quite a lot of space,
- * we are sharing this single project with many tutorial
- * based applets. for this specific piece of code, along
- * with the client json streamer file i'm using a socket
- * to communicate between the server and the client so that
- * we can stream some data in JSON format in batches,
- */
-
 const express = require('express')
 
 var app  = express()
