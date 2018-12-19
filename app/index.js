@@ -9,16 +9,8 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html')
 })
 
-var externalRoutes = require(./routes/externalRoutes)
+var externalRoutes = require('./routes/externalRoutes')
 app.use('/externalRoutes', externalRoutes)
-
-app.get('/public/form_functions.js', (req, res) => {
-  res.sendFile(__dirname + '/public/form_functions.js')
-})
-
-app.get('/public/index.css', (req, res) => {
-  res.sendFile(__dirname + '/public/index.css') //damn dont forget the backslash
-})
 
 io.on('connection', (socket) => {
   console.log('user has connected.')
