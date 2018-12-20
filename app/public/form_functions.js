@@ -4,7 +4,8 @@ $(document).ready(() => { //here is some jquery code to emit some events from cl
 //this can then be shorted to simply $(function(){ ... code ... })
   socket = io()
 
-  //give user instructions
+  //name request prompt
+  $('#user-input').val('type your nickname here ...')
 
   $('#textfield').submit(() => {
     if (joined == false) {

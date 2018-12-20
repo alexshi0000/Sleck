@@ -21,8 +21,7 @@ app.get('/public/index.css', (req, res) => {
 
 // ====================== Event Handling =======================================
 
-var people = {};
-var counter = 0;
+var people = {} //people object, client.id members -> name
 
 // three different actions, join, send, and disconnect
 io.on('connection', (client) => {
@@ -36,7 +35,7 @@ io.on('connection', (client) => {
 
   client.on('send', (msg) => {
     console.log('message sent: ' + msg)
-    io.emit('send', msg)
+    io.emit('send', people[client.id] + ': ' + msg)
     //write on client side to handle this event
   })
 
