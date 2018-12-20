@@ -1,12 +1,26 @@
-$(function () { //here is some jquery code to emit some events from client side
-  var socket = io()
-  $('form').submit(() => {
-    socket.emit('chat message', $('#m').val()) //calling the id of the field
-    $('#m').val('')
+var socket, joined = false
+
+$(document).ready(() => { //here is some jquery code to emit some events from client side
+//this can then be shorted to simply $(function(){ ... code ... })
+  socket = io()
+
+  //give user instructions
+
+  $('#textfield').submit(() => {
+    if (joined == false) {
+      socket.emit('join', $('#user-input').val())
+      $('#user-input').val('') //reset the value of m
+    }
+    else {
+      socket.emit('send', $('#user-input').val()) //calling the id of the field
+      $('#user-input').val('') //reset the value of m
+    }
+    joined = true
     return false
   })
-  socket.on('chat message', (msg) => {
-    $('#messages').append($('<li>').text(msg))
-    console.log(msg)
+
+  socket.on('send', (msg) => {
+    $('#messages').append($('<li>').text(msg)) //add a list to the ul
+    console.log('message sent: ' + msg)
   })
 })

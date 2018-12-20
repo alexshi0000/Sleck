@@ -1,0 +1,8 @@
+[messages.json] (store the state of the messages and user data)
+
+[index.js - backend] (handle routing) <-> [client] (emit send, join, disconnect)
+                     (also events)
+
+broadcast -> everyone except sender recieves messages
+people -> create nicknames for users
+show the people who are currently online
