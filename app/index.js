@@ -35,8 +35,9 @@ io.on('connection', (client) => {
 
   client.on('send', (msg) => {
     console.log('message sent: ' + msg)
-    io.emit('send', people[client.id] + ': ' + msg)
+    client.emit('send', people[client.id] + ': ' + msg)
     //write on client side to handle this event
+    client.broadcast.emit('send', people[client.id] + ': ' + msg)
   })
 
   client.on('disconnect', () => {
