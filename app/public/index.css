@@ -5,39 +5,43 @@
 }
 
 body {
-  font: 13px Helvetica, Arial;
+  font: 16px Helvetica, Arial;
 }
 
-form {
-  background: #000;
-  padding: 3px;
+#textfield {
+  padding: 5px;
+  background: #fff;
   position: fixed;
-  bottom: 0; width: 75%;
+  bottom: 0;
+  width: 85%;
 }
 
-form input {
-  border: 0;
-  padding: 10px;
-  width: 90%;
+#textfield input {
+  border: 0px; /* by default there is a really ugly border, make it flat */
+  background-color: #eee;
+  padding: 15px;
+  width: 100%;
   margin-right: .5%;
+  font-size: 16px;
+  border-radius: 20px;
 }
-
+/*
 form button {
   width: 9%;
   background:
   rgb(130, 224, 255);
   border: none;
   padding: 10px;
-}
+}*/
 
 #chat {
-  margin-left: 25%; /* same as the width of the sidebar */
-  width: 75%;
+  margin-left: 15%; /* same as the width of the sidebar */
+  width: 85%;
 }
 
 #sidebar {
   height: 100%;
-  width: 25%;
+  width: 15%;
   position: fixed;
   z-index: 1;
   top: 0;
@@ -47,28 +51,48 @@ form button {
   padding-top: 20px;
 }
 
+#sidebar-header {
+  font-size: 25px;
+  color: #A1A1A1;
+}
+
 .sidebar-entry {
   padding: 6px 8px 6px 16px;
   text-decoration: none;
-  font-size: 20px;
+  font-size: 18px;
   color: #818181;
   display: block;
 }
 
 #messages {
-  list-style-type: none;
+  list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 10px;
 }
 
-#send-all { /*list for send to all*/
-  padding: 20px 10px;
-  text-align: left;
+#messages li { /* class of lists devoid of self or all direction */
+  display:inline-block;
+  clear: both;
+  margin-bottom: 5px;
+  padding: 20px;
+  border-radius: 15px;
 }
 
-#send-self { /*list for send to all*/
-  padding: 20px 10px;
-  text-align: right;
+.send-all { /*list for send to all*/
+  color: #333;
+  background: #eee;
+  float:left;
+}
+
+.send-self { /*list for send to all (container for list) */
+  color: #eee;
+  background: #333;
+  float: right;
+}
+
+/* chrome hack */
+textarea:focus, input:focus{
+    outline: none;
 }
 
 #messages li:nth-child(odd) {
