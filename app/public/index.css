@@ -37,13 +37,13 @@ form button {
 }
 
 #send-all { /*list for send to all*/
-  padding: 50px 10px;
-  text-align: right;
+  padding: 20px 10px;
+  text-align: left;
 }
 
 #send-self { /*list for send to all*/
-  padding: 50px 10px;
-  text-align: left;
+  padding: 20px 10px;
+  text-align: right;
 }
 
 #messages li:nth-child(odd) {
