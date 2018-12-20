@@ -35,7 +35,7 @@ io.on('connection', (client) => {
 
   client.on('send', (msg) => {
     console.log('message sent: ' + msg)
-    client.emit('send-self', people[client.id] + ': ' + msg)
+    client.emit('send-self', ': ' + msg)
     //write on client side to handle this event
     client.broadcast.emit('send-all', people[client.id] + ': ' + msg)
   })

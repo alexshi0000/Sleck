@@ -36,13 +36,14 @@ form button {
   padding: 0;
 }
 
-#messages li {
-  padding: 5px 10px;
+#send-all { /*list for send to all*/
+  padding: 50px 10px;
+  text-align: right;
 }
 
-#send-all { //list
-  padding: 5px 10px;
-  text-align: right;
+#send-self { /*list for send to all*/
+  padding: 50px 10px;
+  text-align: left;
 }
 
 #messages li:nth-child(odd) {
