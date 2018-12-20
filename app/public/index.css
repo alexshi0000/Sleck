@@ -40,6 +40,11 @@ form button {
   padding: 5px 10px;
 }
 
+#send-all { //list
+  padding: 5px 10px;
+  text-align: right;
+}
+
 #messages li:nth-child(odd) {
   background: #eee;
 }

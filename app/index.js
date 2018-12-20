@@ -30,19 +30,19 @@ io.on('connection', (client) => {
   client.on('join', (name) => {
     people[client.id] = name
     console.log(name + ' has joined the chat')
-    io.emit('send', name + ' has joined the chat')
+    io.emit('send-all', name + ' has joined the chat')
   })
 
   client.on('send', (msg) => {
     console.log('message sent: ' + msg)
-    client.emit('send', people[client.id] + ': ' + msg)
+    client.emit('send-self', people[client.id] + ': ' + msg)
     //write on client side to handle this event
-    client.broadcast.emit('send', people[client.id] + ': ' + msg)
+    client.broadcast.emit('send-all', people[client.id] + ': ' + msg)
   })
 
   client.on('disconnect', () => {
     console.log('user has disconnected')
-    io.emit('send', people[client.id] + ' has disconnected')
+    io.emit('send-all', people[client.id] + ' has disconnected')
   })
 })
 

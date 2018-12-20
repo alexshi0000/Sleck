@@ -20,8 +20,13 @@ $(document).ready(() => { //here is some jquery code to emit some events from cl
     return false
   })
 
-  socket.on('send', (msg) => {
-    $('#messages').append($('<li>').text(msg)) //add a list to the ul
+  socket.on('send-self', (msg) => { //texts from myself
+    $('#messages').append($('<li id="send-self">').text(msg)) //add a list to the ul
+    console.log('message sent: ' + msg)
+  })
+
+  socket.on('send-all', (msg) => { //msgs from other people
+    $('#messages').append($('<li id="send-all">').text(msg)) //add a list to the ul
     console.log('message sent: ' + msg)
   })
 })
