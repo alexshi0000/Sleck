@@ -12,13 +12,23 @@
     <link rel="stylesheet" href="/public/index.css">
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-    <script src="/public/form_functions.js"></script> <!--sending and receiving messages-->
+    <script src="/public/form.js"></script> <!--sending and receiving messages-->
   </head>
 
   <body>
-    <ul id="messages"></ul> <!--unpolulated messages unordered list-->
-    <form id="textfield" action="">
-      <input id="user-input" autocomplete="off" /><button>Send</button> <!-- this links together with the above -->
-    </form>
+    <div id="sidebar">
+      <ul>
+        <li class="sidebar-entry" >Notifications - Users</li>
+        <li class="sidebar-entry" >Rui Li</li>
+        <li class="sidebar-entry" >Ekim Karabey</li>
+      </ul>
+    </div>
+    <div id="chat">
+      <ul id="messages"></ul> <!--unpolulated messages unordered list-->
+      <form id="textfield" action="">
+        <input id="user-input" autocomplete="off" />
+          <button>Send</button> <!-- this links together with the above -->
+      </form>
+    </div>
   </body>
 </html>

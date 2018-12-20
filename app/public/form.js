@@ -21,7 +21,8 @@ $(document).ready(() => { //here is some jquery code to emit some events from cl
   })
 
   socket.on('send-self', (msg) => { //texts from myself
-    $('#messages').append($('<li id="send-self">').text(msg)) //add a list to the ul
+    //add a list to the ul
+    $('#messages').append($('<li id="send-self" style="background:#eee">').text(msg))
     console.log('message sent: ' + msg)
   })
 
