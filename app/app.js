@@ -32,6 +32,10 @@ var active_users = []
 io.on('connection', (client) => {
   console.log('a user has connected.')
 
+  function encode_to_wrapped(msg) {
+
+  }
+
   client.on('join', (name) => {
     people[client.id] = name
     console.log(name + ' has joined the chat')
@@ -43,10 +47,12 @@ io.on('connection', (client) => {
   })
 
   client.on('send', (msg) => {
-    console.log('message sent: ' + msg)
-    client.emit('send-self', msg)
-    //write on client side to handle this event
-    client.broadcast.emit('send-all', people[client.id] + ' - ' + msg)
+    if (msg.length > 0) {
+      console.log('message sent: ' + msg)
+      client.emit('send-self', msg)
+      //write on client side to handle this event
+      client.broadcast.emit('send-all', people[client.id] + ' - ' + msg)
+    }
   })
 
   client.on('disconnect', () => {
