@@ -6,3 +6,13 @@
 broadcast -> everyone except sender recieves messages
 people -> create nicknames for users
 show the people who are currently online
+
+============================= Text Wrapping ====================================
+
+[message] length > threshold
+
+    [mes]
+     [sa]     <- with css and all
+     [ge]
+
+rollback text wrapping branch
