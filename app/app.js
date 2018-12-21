@@ -26,7 +26,7 @@ app.get('/public/index.css', (req, res) => {
 // ====================== Event Handling =======================================
 
 var people = {} //people object, client.id members -> name
-var active_users = {}
+var active_users = []
 
 // three different actions, join, send, and disconnect
 io.on('connection', (client) => {
@@ -36,6 +36,11 @@ io.on('connection', (client) => {
     people[client.id] = name
     console.log(name + ' has joined the chat')
     io.emit('send-all', name + ' has joined the chat')
+
+    active_users.push(name)
+    console.log(active_users)
+
+    client.emit('update-active', active_users)
   })
 
   client.on('send', (msg) => {
@@ -47,12 +52,15 @@ io.on('connection', (client) => {
 
   client.on('disconnect', () => {
     console.log('user has disconnected')
-    io.emit('send-all', people[client.id] + ' has left the chat')
-  })
+    var name = people[client.id]
+    io.emit('send-all', name + ' has left the chat')
 
-  client.on('get-active', () => {
-    console.log('grabbing the names of people who have joined but not left')
-    //client.emit
+    var index_person = active_users.indexOf(name)
+    if (index_person > -1) {
+      active_users.splice(index_person, 1)
+    }
+    console.log(active_users)
+    client.emit('update-active', active_users)
   })
 })
 

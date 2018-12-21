@@ -9,7 +9,7 @@ body {
 }
 
 #textfield {
-  padding: 5px;
+  padding: 0px;
   background: #fff;
   position: fixed;
   bottom: 0;
@@ -18,12 +18,11 @@ body {
 
 #textfield input {
   border: 0px; /* by default there is a really ugly border, make it flat */
-  background-color: #eee;
+  background-color: #ddd;
   padding: 15px;
   width: 100%;
   margin-right: .5%;
   font-size: 16px;
-  border-radius: 20px;
 }
 /*
 form button {
@@ -67,6 +66,7 @@ form button {
 #messages {
   list-style: none;
   margin: 0;
+  position: relative;
   padding: 10px;
 }
 
@@ -74,8 +74,10 @@ form button {
   display:inline-block;
   clear: both;
   margin-bottom: 5px;
-  padding: 20px;
-  border-radius: 15px;
+  padding: 15px;
+  padding-right: 1%;
+  padding-left: 1%;
+  border-radius: 5px;
 }
 
 .send-all { /*list for send to all*/
