@@ -36,6 +36,7 @@ form button {
 
 #chat {
   margin-left: 15%; /* same as the width of the sidebar */
+  margin-bottom: 100px;
   width: 85%;
 }
 
@@ -78,6 +79,12 @@ form button {
   padding-right: 1%;
   padding-left: 1%;
   border-radius: 5px;
+}
+
+#inv-block {
+  color: transparent;
+  background: transparent;
+  float:left;
 }
 
 .send-all { /*list for send to all*/
