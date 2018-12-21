@@ -7,22 +7,22 @@
     <meta name="author" content="Yu An (Alex) Shi">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>socketio chat</title>
+    <title>Sleck - A Simple Chat Application</title>
 
     <link rel="stylesheet" href="/public/index.css">
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script src="/public/form.js"></script> <!--sending and receiving messages-->
+    <script src="/public/sidebar.js"></script> <!--sidebar functions-->
   </head>
 
   <body>
     <div id="sidebar">
       <ul>
-        <li id="sidebar-header"
-            class="sidebar-entry" >Online Users</li>
-        <li class="sidebar-entry" >Alex</li>
-        <li class="sidebar-entry" >Jasmine</li>
-        <li class="sidebar-entry" >Spencer</li>
+        <li id="sidebar-header" class="sidebar-entry" >Online Users</li>
+      </ul>
+      <ul id='active-users-list'>
+        <!-- this list will get populated by online user nicknames -->
       </ul>
     </div>
     <div id="chat">

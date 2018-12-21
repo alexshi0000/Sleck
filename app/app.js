@@ -39,8 +39,7 @@ io.on('connection', (client) => {
 
     active_users.push(name)
     console.log(active_users)
-
-    client.emit('update-active', active_users)
+    io.emit('update-active', active_users)
   })
 
   client.on('send', (msg) => {
@@ -60,7 +59,7 @@ io.on('connection', (client) => {
       active_users.splice(index_person, 1)
     }
     console.log(active_users)
-    client.emit('update-active', active_users)
+    io.emit('update-active', active_users)
   })
 })
 
