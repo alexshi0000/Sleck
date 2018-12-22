@@ -1,0 +1,37 @@
+#messages {
+  list-style: none;
+  margin: 0;
+  padding: 10px;
+}
+
+#messages li { /* class of lists devoid of self or all direction */
+  display:inline-block;
+  clear: both;
+  margin-bottom: 5px;
+  padding: 15px;
+  padding-right: 1%;
+  padding-left: 1%;
+  border-radius: 5px;
+}
+
+#inv-block {
+  color: transparent;
+  background: transparent;
+  float:left;
+}
+
+.send-all { /*list for send to all*/
+  color: #333;
+  background: #eee;
+  float:left;
+}
+
+.send-self { /*list for send to all (container for list) */
+  color: #eee;
+  background: #333;
+  float: right;
+}
+
+#messages li:nth-child(odd) {
+  /* stripe pattern attributes here */
+}

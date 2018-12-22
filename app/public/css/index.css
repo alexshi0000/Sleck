@@ -1,0 +1,15 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font: 16px Helvetica, Arial;
+}
+
+#chat {
+  margin-left: 15%; /* same as the width of the sidebar */
+  margin-bottom: 100px;
+  width: 85%;
+}

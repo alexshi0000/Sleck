@@ -9,11 +9,18 @@
 
     <title>Sleck - A Simple Chat Application</title>
 
-    <link rel="stylesheet" href="/public/index.css">
+    <link rel="stylesheet" href="/public/css/index.css">
+    <link rel="stylesheet" href="/public/css/textfield.css">
+    <link rel="stylesheet" href="/public/css/sidebar.css">
+    <link rel="stylesheet" href="/public/css/messages.css">
+
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-    <script src="/public/form.js"></script> <!--sending and receiving messages-->
-    <script src="/public/sidebar.js"></script> <!--sidebar functions-->
+
+    <script src="/public/js/socket.js"></script> <!-- create socketio connection -->
+    <script src="/public/js/textfield.js"></script> <!-- get input from user -->
+    <script src="/public/js/messages.js"></script> <!-- display messages -->
+    <script src="/public/js/sidebar.js"></script> <!-- update sidebar with notifications -->
   </head>
 
   <body>

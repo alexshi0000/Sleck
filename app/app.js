@@ -7,20 +7,43 @@ app.use(express.static('public'));
 
 // =========================== Routing =========================================
 
+//index
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html')
 })
 
-app.get('/public/form.js', (req, res) => {
-  res.sendFile(__dirname + '/public/form.js')
+//js
+app.get('/public/js/socket.js', (req, res) => {
+  res.sendFile(__dirname + '/public/js/socket.js')
 })
 
-app.get('/public/sidebar.js', (req, res) => {
-  res.sendFile(__dirname + '/public/sidebar.js')
+app.get('/public/js/textfield.js', (req, res) => {
+  res.sendFile(__dirname + '/public/js/textfield.js')
 })
 
-app.get('/public/index.css', (req, res) => {
-  res.sendFile(__dirname + '/public/index.css') //damn dont forget the backslash
+app.get('/public/js/messages.js', (req, res) => {
+  res.sendFile(__dirname + '/public/js/messages.js')
+})
+
+app.get('/public/js/sidebar.js', (req, res) => {
+  res.sendFile(__dirname + '/public/js/sidebar.js')
+})
+
+//css
+app.get('/public/css/index.css', (req, res) => {
+  res.sendFile(__dirname + '/public/css/index.css')
+})
+
+app.get('/public/css/messages.css', (req, res) => {
+  res.sendFile(__dirname + '/public/css/messages.css')
+})
+
+app.get('/public/css/sidebar.css', (req, res) => {
+  res.sendFile(__dirname + '/public/css/sidebar.css')
+})
+
+app.get('/public/css/textfield.css', (req, res) => {
+  res.sendFile(__dirname + '/public/css/textfield.css')
 })
 
 // ====================== Event Handling =======================================
@@ -42,7 +65,7 @@ io.on('connection', (client) => {
     io.emit('send-all', name + ' has joined the chat')
 
     active_users.push(name)
-    console.log(active_users)
+    console.log('users online: ' + active_users)
     io.emit('update-active', active_users)
   })
 
@@ -64,7 +87,7 @@ io.on('connection', (client) => {
     if (index_person > -1) {
       active_users.splice(index_person, 1)
     }
-    console.log(active_users)
+    console.log('users online: ' + active_users)
     io.emit('update-active', active_users)
   })
 })
@@ -72,8 +95,3 @@ io.on('connection', (client) => {
 http.listen(3000, () => {
   console.log('listening on *:3000')
 })
-
-//we would like to broadcast the message to all the users
-//io.emit('some event', { for: 'everyone' });
-
-//socket.broadcast.emit('hi')   "client"
