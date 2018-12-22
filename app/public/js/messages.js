@@ -3,7 +3,7 @@ $(document).ready(() => {
     //add a list to the ul
     $('#messages li:last-child').remove()
     $('#messages').append($('<li class="send-self">').text(msg))
-    $('#messages').append($('<li id="inv-block">').text('- - -')) //buffer block
+    $('#messages').append($('<li id="inv-block">').text('/')) //buffer block
     console.log('message sent: ' + msg)
 
     document.getElementById('inv-block').scrollIntoView(true);
@@ -13,7 +13,7 @@ $(document).ready(() => {
   socket.on('send-all', (msg) => { //msgs from other people
     $('#messages li:last-child').remove()
     $('#messages').append($('<li class="send-all">').text(msg))
-    $('#messages').append($('<li id="inv-block">').text('- - -'))
+    $('#messages').append($('<li id="inv-block">').text('/'))
     console.log('message sent: ' + msg)
 
     document.getElementById('inv-block').scrollIntoView(true);

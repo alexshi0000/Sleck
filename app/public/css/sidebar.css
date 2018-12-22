@@ -1,6 +1,6 @@
 #sidebar {
   height: 100%;
-  width: 15%;
+  width: 20%;
   position: fixed;
   z-index: 1;
   top: 0;
@@ -12,13 +12,21 @@
 
 #sidebar-header {
   font-size: 20px;
-  color: #A1A1A1;
+  color: #B1B1B1;
 }
 
 .sidebar-entry {
   padding: 6px 8px 6px 16px;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 18px;
   color: #818181;
+  display: block;
+}
+
+.sidebar-entry-focused {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 18px;
+  color: #A1CFA1;
   display: block;
 }

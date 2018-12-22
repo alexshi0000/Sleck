@@ -9,7 +9,9 @@ body {
 }
 
 #chat {
-  margin-left: 15%; /* same as the width of the sidebar */
+  margin-left: 20%; /* same as the width of the sidebar */
   margin-bottom: 100px;
-  width: 85%;
+  width: 80%;
 }
+
+html {overflow: -moz-scrollbars-none;}

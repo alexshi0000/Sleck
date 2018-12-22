@@ -12,6 +12,8 @@ $(document).ready(() => {
 
   $('#textfield').submit(() => {
     if (joined == false) { //joining for the first time
+
+      socket.emit('duplicate user redirect', $('#user-input').val())
       socket.emit('join', $('#user-input').val())
       $('#user-input').val('') //reset the value of m
     }
@@ -21,5 +23,10 @@ $(document).ready(() => {
     }
     joined = true
     return false
+  })
+
+  socket.on('duplicate user redirect', (name) => {
+    var destination = '/public/html/error.html'
+    window.location.href = destination;
   })
 })

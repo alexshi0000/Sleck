@@ -46,6 +46,10 @@ app.get('/public/css/textfield.css', (req, res) => {
   res.sendFile(__dirname + '/public/css/textfield.css')
 })
 
+app.get('*', (req, res) => {
+  res.send('<h1>404</h1>', 404);
+});
+
 // ====================== Event Handling =======================================
 
 var people = {} //people object, client.id members -> name
@@ -59,6 +63,22 @@ io.on('connection', (client) => {
 
   }
 
+  function exists_in(arr, elem) {
+    var i
+    for (i = 0; i < arr.length; i++) {
+      if (arr[i] === elem)
+        return true
+    }
+    return false
+  }
+
+  client.on('duplicate user redirect', (name) => {
+    if (exists_in(active_users, name)) {
+
+    }
+    // else join after handling check-in
+  })
+
   client.on('join', (name) => {
     people[client.id] = name
     console.log(name + ' has joined the chat')
@@ -66,6 +86,7 @@ io.on('connection', (client) => {
 
     active_users.push(name)
     console.log('users online: ' + active_users)
+    client.emit('update-name', name)
     io.emit('update-active', active_users)
   })
 
@@ -88,6 +109,7 @@ io.on('connection', (client) => {
       active_users.splice(index_person, 1)
     }
     console.log('users online: ' + active_users)
+    client.emit('update-name', name)
     io.emit('update-active', active_users)
   })
 })
