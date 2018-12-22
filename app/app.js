@@ -13,7 +13,9 @@ app.get('/', (req, res) => {
 })
 
 //html
-app.get('/public/html/error.html')
+app.get('/public/html/error.html', (req, res) => {
+  res.sendFile(__dirname + '/public/html/error.html')
+})
 
 //js
 app.get('/public/js/socket.js', (req, res) => {
