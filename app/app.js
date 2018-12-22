@@ -74,7 +74,7 @@ io.on('connection', (client) => {
 
   client.on('duplicate user redirect', (name) => {
     if (exists_in(active_users, name)) {
-
+      client.emit('duplicate user redirect', name)
     }
     // else join after handling check-in
   })

@@ -26,7 +26,9 @@ $(document).ready(() => {
   })
 
   socket.on('duplicate user redirect', (name) => {
+    //TODO display this name
     var destination = '/public/html/error.html'
+    socket.emit('create error', 'The name ' + name + 'already exists. Please choose something else')
     window.location.href = destination;
   })
 })
