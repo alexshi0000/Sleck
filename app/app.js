@@ -7,6 +7,8 @@ app.use(express.static('public'));
 
 // =========================== Routing =========================================
 
+// TODO create a node js module just for rerouting this code
+
 //index
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/public/html/index.html')
@@ -70,11 +72,17 @@ io.on('connection', (client) => {
     return false
   }
 
-  client.on('duplicate user redirect', (name) => {
+  client.on('handle errors', (name) => {
     if (exists_in(active_users, name)) {
-      client.emit('duplicate user redirect', name)
+      client.emit('duplicate user redirect', name) //dup username not allowed
+      var msg = 'The username ' + name + ' already exists'
+      client.emit('set error message', msg)
     }
-    // else join after handling check-in
+    // else if () {} TODO other error catching
+    else {
+      client.emit('submit')
+      // else join after handling check-in
+    }
   })
 
   client.on('join', (name) => {
