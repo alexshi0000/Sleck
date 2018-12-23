@@ -11,25 +11,25 @@ $(document).ready(() => {
   })
 
   $('#textfield').submit(() => {
-    if (joined == false) { //joining for the first time
+    socket.emit('handle errors', $('#user-input').val())
+    return false
+  })
 
-      socket.emit('duplicate user redirect', $('#user-input').val())
+  socket.on('submit', () => {
+    if (joined == false) { //joining for the first time
       socket.emit('join', $('#user-input').val())
-      $('#user-input').val('') //reset the value of m
+      $('#user-input').val('')
+      joined = true
     }
     else {
       socket.emit('send', $('#user-input').val()) //calling the id of the field
       $('#user-input').val('') //reset the value of m
     }
-    joined = true
-    return false
   })
 
   socket.on('duplicate user redirect', (name) => {
-    //TODO display this name
+    console.log('duplicate user redirect called')
     var destination = '/public/html/error.html'
-    var description = 'The name ' + name + 'already exists. Please choose something else'
-    $('#errors').append('<h3>').text(description)
     window.location.href = destination;
   })
 })
