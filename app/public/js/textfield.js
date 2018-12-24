@@ -11,7 +11,7 @@ $(document).ready(() => {
   })
 
   $('#textfield').submit(() => {
-    socket.emit('handle errors', $('#user-input').val())
+    socket.emit('handle errors', $('#user-input').val(), joined)
     //ask server to handle errors and callback on submit after
     return false
   })

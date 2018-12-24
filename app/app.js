@@ -60,6 +60,7 @@ app.get('*', (req, res) => {
 // ====================== Event Handling =======================================
 
 const USERNAME_CHAR_LIMIT = 20
+const MSG_LEN_LIMIT = 60
 
 var people = {} //people object, client.id members -> name
 var active_users = [] //string constants to list users
@@ -68,10 +69,6 @@ var error_message_stack = [];
 // three different actions, join, send, and disconnect
 io.on('connection', (client) => {
   console.log('a user has connected.')
-
-  function encode_to_wrapped(msg) {
-
-  }
 
   function exists_in(arr, elem) {
     var i
@@ -87,13 +84,13 @@ io.on('connection', (client) => {
     client.emit('set error message', error_message_stack.pop())
   })
 
-  client.on('handle errors', (name) => {
-    if (exists_in(active_users, name)) {
+  client.on('handle errors', (name, joined) => {
+    if (exists_in(active_users, name) && !joined) {
       client.emit('error redirect') //dup username not allowed
       var msg = 'The username ' + name + ' already exists. Please try something different'
       error_message_stack.push(msg)
     }
-    else if (name.length > USERNAME_CHAR_LIMIT) { //cannot accept names that are too long
+    else if (name.length > USERNAME_CHAR_LIMIT && !joined) { //cannot accept names that are too long
       client.emit('error redirect')
       var msg = 'The username ' + name + ' is too long. please use something under ' + USERNAME_CHAR_LIMIT + ' characters'
       error_message_stack.push(msg)
@@ -115,12 +112,29 @@ io.on('connection', (client) => {
     io.emit('update-active', active_users)
   })
 
+  function encode_to_wrapped(txt) {
+    var text_token_arr = []
+    var chop_text = msg
+    while (chop_text.length > MSG_LEN_LIMIT) {
+      text_token_arr.push(chop_text.substring(0, MSG_LEN_LIMIT))
+    }
+    if (chop_text.length > 0) { //still some characters left
+      text_token_arr.push(chop_text)
+    }
+    return text_token_arr
+  }
+
   client.on('send', (msg) => {
-    if (msg.length > 0) {
+    if (msg.length > 0 && msg.length < MSG_LEN_LIMIT) {
       console.log('message sent: ' + msg)
       client.emit('send-self', msg)
       //write on client side to handle this event
       client.broadcast.emit('send-all', people[client.id] + ' - ' + msg)
+    }
+    else {
+      console.log('message is too long, had to wrap it')
+      var text_token_arr = encode_to_wrapped(msg) //now do something with this
+      console.log('  message now looks like this ' + text_token_arr)
     }
   })
 
