@@ -12,6 +12,7 @@ $(document).ready(() => {
 
   $('#textfield').submit(() => {
     socket.emit('handle errors', $('#user-input').val())
+    //ask server to handle errors and callback on submit after
     return false
   })
 
@@ -27,9 +28,9 @@ $(document).ready(() => {
     }
   })
 
-  socket.on('duplicate user redirect', (name) => {
-    console.log('duplicate user redirect called')
+  socket.on('error redirect', () => {
     var destination = '/public/html/error.html'
+    console.log('redirect to error page called')
     window.location.href = destination;
   })
 })
