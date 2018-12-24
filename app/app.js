@@ -107,16 +107,17 @@ io.on('connection', (client) => {
     io.emit('send-all', name + ' has joined the chat')
 
     active_users.push(name)
-    console.log('users online: ' + active_users)
+    console.log('  users online: ' + active_users)
     client.emit('update-name', name)
     io.emit('update-active', active_users)
   })
 
   function encode_to_wrapped(txt) {
     var text_token_arr = []
-    var chop_text = msg
+    var chop_text = txt
     while (chop_text.length > MSG_LEN_LIMIT) {
       text_token_arr.push(chop_text.substring(0, MSG_LEN_LIMIT))
+      chop_text = chop_text.substring(MSG_LEN_LIMIT, chop_text.length)
     }
     if (chop_text.length > 0) { //still some characters left
       text_token_arr.push(chop_text)
@@ -134,7 +135,11 @@ io.on('connection', (client) => {
     else {
       console.log('message is too long, had to wrap it')
       var text_token_arr = encode_to_wrapped(msg) //now do something with this
-      console.log('  message now looks like this ' + text_token_arr)
+      console.log('  message now looks like this: ')
+      var i
+      for (i = 0; i < text_token_arr.length; i++) {
+        console.log('    line #' + i + ' : ' + text_token_arr[i])
+      }
     }
   })
 
@@ -148,7 +153,7 @@ io.on('connection', (client) => {
       if (index_person > -1) {
         active_users.splice(index_person, 1)
       }
-      console.log('users online: ' + active_users)
+      console.log('  users online: ' + active_users)
       client.emit('update-name', name)
       io.emit('update-active', active_users)
     }
@@ -156,5 +161,5 @@ io.on('connection', (client) => {
 })
 
 http.listen(3000, () => {
-  console.log('listening on *:3000')
+  console.log('server is listening on http://localhost:3000, please connect to this')
 })
