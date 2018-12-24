@@ -125,6 +125,19 @@ io.on('connection', (client) => {
     return text_token_arr
   }
 
+  function sending_encoded_wrap_text(text_token_arr, to_self) {
+    var i
+    for (i = 0; i < text_token_arr.length; i++) { //rudiment
+      console.log('    line #' + i + ' : ' + text_token_arr[i])
+      if (to_self) {
+        client.emit('send-self', text_token_arr[i])
+      }
+      else {
+        client.broadcast.emit('send-all', text_token_arr[i])
+      }
+    }
+  }
+
   client.on('send', (msg) => {
     if (msg.length > 0 && msg.length < MSG_LEN_LIMIT) {
       console.log('message sent: ' + msg)
@@ -136,10 +149,8 @@ io.on('connection', (client) => {
       console.log('message is too long, had to wrap it')
       var text_token_arr = encode_to_wrapped(msg) //now do something with this
       console.log('  message now looks like this: ')
-      var i
-      for (i = 0; i < text_token_arr.length; i++) {
-        console.log('    line #' + i + ' : ' + text_token_arr[i])
-      }
+      sending_encoded_wrap_text(text_token_arr, true)
+      sending_encoded_wrap_text(text_token_arr, false)
     }
   })
 
