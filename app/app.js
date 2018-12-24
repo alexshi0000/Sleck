@@ -32,6 +32,9 @@ app.get('/public/js/messages.js', (req, res) => {
 app.get('/public/js/sidebar.js', (req, res) => {
   res.sendFile(__dirname + '/public/js/sidebar.js')
 })
+app.get('/public/js/error.js', (req, res) => {
+  res.sendFile(__dirname + '/public/js/error.js')
+})
 
 //css
 app.get('/public/css/index.css', (req, res) => {
@@ -54,6 +57,7 @@ app.get('*', (req, res) => {
 
 var people = {} //people object, client.id members -> name
 var active_users = []
+var error_message_stack = [];
 
 // three different actions, join, send, and disconnect
 io.on('connection', (client) => {
@@ -72,11 +76,16 @@ io.on('connection', (client) => {
     return false
   }
 
+  client.on('set error message', () => {
+    console.log('setting error message')
+    client.emit('set error message', error_message_stack.pop())
+  })
+
   client.on('handle errors', (name) => {
     if (exists_in(active_users, name)) {
       client.emit('duplicate user redirect', name) //dup username not allowed
-      var msg = 'The username ' + name + ' already exists'
-      client.emit('set error message', msg)
+      var msg = 'The username ' + name + ' already exists. Please try something different'
+      error_message_stack.push(msg)
     }
     // else if () {} TODO other error catching
     else {
