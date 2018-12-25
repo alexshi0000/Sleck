@@ -137,7 +137,7 @@ io.on('connection', (client) => {
   function encode_to_wrapped(txt) {
     var text_token_arr = []
     var chop_text = split_large(txt).split(' ') //word tokens, custom split dammit
-    console.log(chop_text)
+    //console.log(chop_text) show chop text to debug
 
     var next_line = ''
     var i
@@ -148,7 +148,7 @@ io.on('connection', (client) => {
       }
       else if (next_line.length > 0) {
         text_token_arr.push(next_line)
-        next_line = chop_text[i]
+        next_line = chop_text[i] + ' '
       }
     }
     if (next_line.length > 0) {

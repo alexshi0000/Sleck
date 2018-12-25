@@ -21,7 +21,11 @@ $(document).ready(() => {
 
   function gen_white_space(msg, whitespace) {
     var ret = msg
-
+    var i
+    for (i = 0; i < whitespace; i++) {
+      ret += '&nbsp;'
+    }
+    return ret
   }
 
   //for wrapped texts
@@ -29,7 +33,7 @@ $(document).ready(() => {
   socket.on('send-self-middle', (msg, whitespace) => { //texts from myself
     //add a list to the ul
     $('#messages li:last-child').remove()
-    $('#messages').append($('<li class="send-self">').text(gen_white_space(msg)))
+    $('#messages').append('<li class="send-self">' + gen_white_space(msg, whitespace) + '</li>')
     $('#messages').append($('<li id="inv-block">').text('/')) //buffer block
     console.log('message sent: ' + msg)
 
@@ -39,7 +43,7 @@ $(document).ready(() => {
 
   socket.on('send-all-middle', (msg, whitespace) => { //msgs from other people
     $('#messages li:last-child').remove()
-    $('#messages').append($('<li class="send-all">').text(gen_white_space(msg)))
+    $('#messages').append('<li class="send-all">' + gen_white_space(msg, whitespace) + '</li>')
     $('#messages').append($('<li id="inv-block">').text('/'))
     console.log('message sent: ' + msg)
 
