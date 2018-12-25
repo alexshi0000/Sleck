@@ -18,4 +18,31 @@ $(document).ready(() => {
 
     document.getElementById('inv-block').scrollIntoView(true);
   })
+
+  function gen_white_space(msg, whitespace) {
+    var ret = msg
+
+  }
+
+  //for wrapped texts
+
+  socket.on('send-self-middle', (msg, whitespace) => { //texts from myself
+    //add a list to the ul
+    $('#messages li:last-child').remove()
+    $('#messages').append($('<li class="send-self">').text(gen_white_space(msg)))
+    $('#messages').append($('<li id="inv-block">').text('/')) //buffer block
+    console.log('message sent: ' + msg)
+
+    document.getElementById('inv-block').scrollIntoView(true);
+    //nice hack because we can user the placeholder as an anchor to scroll page
+  })
+
+  socket.on('send-all-middle', (msg, whitespace) => { //msgs from other people
+    $('#messages li:last-child').remove()
+    $('#messages').append($('<li class="send-all">').text(gen_white_space(msg)))
+    $('#messages').append($('<li id="inv-block">').text('/'))
+    console.log('message sent: ' + msg)
+
+    document.getElementById('inv-block').scrollIntoView(true);
+  })
 })
