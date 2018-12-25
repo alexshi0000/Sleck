@@ -163,9 +163,27 @@ io.on('connection', (client) => {
     return text_token_arr //return lines
   }
 
+  function max(a, b) {
+    if (a > b)
+      return a
+    else
+      return b
+  }
+
+  function longest_string(arr) {
+    var i
+    var ret = 0
+    for (i = 0; i < arr.length; i++)
+      ret = max(arr[i].length, ret)
+    return ret
+  }
+
   function sending_encoded_wrap_text(text_token_arr, to_self) {
+
+    const WRAP_LEN = longest_string(text_token_arr)
+
     console.log('    line #' + 0 + ' : ' + text_token_arr[0])
-    var whitespace = MSG_LEN_LIMIT - text_token_arr[0].length
+    var whitespace = WRAP_LEN - text_token_arr[0].length
     if (to_self)
       client.emit('send-self-top', text_token_arr[0], whitespace)
     else
@@ -175,7 +193,7 @@ io.on('connection', (client) => {
     var i
     for (i = 1; i < n-1; i++) { //rudiment
       console.log('    line #' + i + ' : ' + text_token_arr[i])
-      var whitespace = MSG_LEN_LIMIT - text_token_arr[i].length
+      var whitespace = WRAP_LEN - text_token_arr[i].length
       if (to_self)
         client.emit('send-self-middle', text_token_arr[i], whitespace)
       else
@@ -183,7 +201,7 @@ io.on('connection', (client) => {
     }
 
     console.log('    line #' + (n - 1) + ' : ' + text_token_arr[n-1])
-    var whitespace = MSG_LEN_LIMIT - text_token_arr[n-1].length
+    var whitespace = WRAP_LEN - text_token_arr[n-1].length
     if (to_self)
       client.emit('send-self-bottom', text_token_arr[n-1], whitespace)
     else
