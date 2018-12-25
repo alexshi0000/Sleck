@@ -60,7 +60,7 @@ app.get('*', (req, res) => {
 // ====================== Event Handling =======================================
 
 const USERNAME_CHAR_LIMIT = 20
-const MSG_LEN_LIMIT = 60
+const MSG_LEN_LIMIT = 65
 
 var people = {} //people object, client.id members -> name
 var active_users = [] //string constants to list users
@@ -112,45 +112,80 @@ io.on('connection', (client) => {
     io.emit('update-active', active_users)
   })
 
+  function split_large(txt) {
+    var combo = 0 //once combo reaches MSG_LEN_LIMIT then set back to 0
+    var ret = ''
+    var i
+    for (i = 0; i < txt.length; i++) {
+      if (txt.charAt(i) === ' ') {
+        combo = 0
+        ret += txt.charAt(i)
+      }
+      else if (combo >= MSG_LEN_LIMIT) {
+        combo = 0
+        ret += ' '
+        ret += txt.charAt(i)
+      }
+      else {
+        ret += txt.charAt(i)
+        combo++
+      }
+    }
+    return ret
+  }
+
   function encode_to_wrapped(txt) {
     var text_token_arr = []
-    var chop_text = txt
-    while (chop_text.length > MSG_LEN_LIMIT) {
-      text_token_arr.push(chop_text.substring(0, MSG_LEN_LIMIT))
-      chop_text = chop_text.substring(MSG_LEN_LIMIT, chop_text.length)
+    var chop_text = split_large(txt).split(' ') //word tokens, custom split dammit
+    console.log(chop_text)
+
+    var next_line = ''
+    var i
+    for (i = 0; i < chop_text.length; i++) {
+      var next_tok = chop_text[i]
+      if (next_line.length + next_tok.length <= MSG_LEN_LIMIT) {
+        next_line += next_tok + ' '
+      }
+      else if (next_line.length > 0) {
+        text_token_arr.push(next_line)
+        next_line = chop_text[i]
+      }
     }
-    if (chop_text.length > 0) { //still some characters left
-      text_token_arr.push(chop_text)
+    if (next_line.length > 0) {
+      text_token_arr.push(next_line)
     }
-    return text_token_arr
+    return text_token_arr //return lines
   }
 
   function sending_encoded_wrap_text(text_token_arr, to_self) {
     var i
     for (i = 0; i < text_token_arr.length; i++) { //rudiment
       console.log('    line #' + i + ' : ' + text_token_arr[i])
+      var whitespace = MSG_LEN_LIMIT - text_token_arr[i].length
       if (to_self) {
-        client.emit('send-self', text_token_arr[i])
+        client.emit('send-self-middle', text_token_arr[i], whitespace)
       }
       else {
-        client.broadcast.emit('send-all', text_token_arr[i])
+        client.broadcast.emit('send-all-middle', text_token_arr[i], whitespace)
       }
     }
   }
 
   client.on('send', (msg) => {
-    if (msg.length > 0 && msg.length < MSG_LEN_LIMIT) {
-      console.log('message sent: ' + msg)
-      client.emit('send-self', msg)
-      //write on client side to handle this event
-      client.broadcast.emit('send-all', people[client.id] + ' - ' + msg)
-    }
-    else {
-      console.log('message is too long, had to wrap it')
-      var text_token_arr = encode_to_wrapped(msg) //now do something with this
-      console.log('  message now looks like this: ')
-      sending_encoded_wrap_text(text_token_arr, true)
-      sending_encoded_wrap_text(text_token_arr, false)
+    if (msg.length > 0) {
+      if (msg.length < MSG_LEN_LIMIT) {
+        console.log('message sent: ' + msg)
+        client.emit('send-self', msg)
+        //write on client side to handle this event
+        client.broadcast.emit('send-all', people[client.id] + ' - ' + msg)
+      }
+      else {
+        console.log('message is too long, had to wrap it')
+        var text_token_arr = encode_to_wrapped(msg) //now do something with this
+        console.log('  message now looks like this: ')
+        sending_encoded_wrap_text(text_token_arr, true)
+        sending_encoded_wrap_text(text_token_arr, false)
+      }
     }
   })
 
