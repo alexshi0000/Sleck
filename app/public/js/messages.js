@@ -32,6 +32,13 @@ $(document).ready(() => {
     return ret
   }
 
+  /* some things to pay attention to:
+   *   - only last child removed in send-self-top since thats the first line
+   *     in the wrapped text bubble
+   *   - only add last child element in send-self-bottom
+   *   - keep css clean
+   */
+
   //top cap
   socket.on('send-self-top', (msg, whitespace) => { //texts from myself
     //add a list to the ul

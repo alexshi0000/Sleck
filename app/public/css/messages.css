@@ -4,13 +4,16 @@
   padding: 10px;
 }
 
-#messages .send-all { /* class of lists devoid of self or all direction */
+#messages li { /* class of lists devoid of self or all direction */
   display:inline-block;
   clear: both;
-  margin-bottom: 8px;
-  padding: 12px;
+  padding: 8px;
   padding-right: 1.5%;
   padding-left: 1.5%;
+}
+
+#messages .send-all { /* class of lists devoid of self or all direction */
+  margin-bottom: 8px;
   border-radius: 8px;
   color: #333;
   background: #eee;
@@ -18,12 +21,7 @@
 }
 
 #messages .send-self { /* class of lists devoid of self or all direction */
-  display:inline-block;
-  clear: both;
   margin-bottom: 8px;
-  padding: 12px;
-  padding-right: 1.5%;
-  padding-left: 1.5%;
   border-radius: 8px;
   color: #eee;
   background: #333;
@@ -31,12 +29,7 @@
 }
 
 #messages .send-all-top { /* class of lists devoid of self or all direction */
-  display:inline-block;
-  clear: both;
   margin-bottom: 0px;
-  padding: 12px;
-  padding-right: 1.5%;
-  padding-left: 1.5%;
   border-radius: 8px 8px 0px 0px;
   color: #333;
   background: #eee;
@@ -44,12 +37,7 @@
 }
 
 #messages .send-self-top { /* class of lists devoid of self or all direction */
-  display:inline-block;
-  clear: both;
   margin-bottom: 0px;
-  padding: 12px;
-  padding-right: 1.5%;
-  padding-left: 1.5%;
   border-radius: 8px 8px 0px 0px;
   color: #eee;
   background: #333;
@@ -57,12 +45,7 @@
 }
 
 #messages .send-all-middle { /* class of lists devoid of self or all direction */
-  display:inline-block;
-  clear: both;
   margin-bottom: 0px;
-  padding: 12px;
-  padding-right: 1.5%;
-  padding-left: 1.5%;
   border-radius: 0px;
   color: #333;
   background: #eee;
@@ -70,12 +53,7 @@
 }
 
 #messages .send-self-middle { /* class of lists devoid of self or all direction */
-  display:inline-block;
-  clear: both;
   margin-bottom: 0px;
-  padding: 12px;
-  padding-right: 1.5%;
-  padding-left: 1.5%;
   border-radius: 0px;
   color: #eee;
   background: #333;
@@ -83,12 +61,7 @@
 }
 
 #messages .send-all-bottom { /* class of lists devoid of self or all direction */
-  display:inline-block;
-  clear: both;
   margin-bottom: 8px;
-  padding: 12px;
-  padding-right: 1.5%;
-  padding-left: 1.5%;
   border-radius: 0px 0px 8px 8px;
   color: #333;
   background: #eee;
@@ -96,30 +69,17 @@
 }
 
 #messages .send-self-bottom { /* class of lists devoid of self or all direction */
-  display:inline-block;
-  clear: both;
   margin-bottom: 8px;
-  padding: 12px;
-  padding-right: 1.5%;
-  padding-left: 1.5%;
   border-radius: 0px 0px 8px 8px;
   color: #eee;
   background: #333;
   float: right;
 }
 
-
-#messages li { /* class of lists devoid of self or all direction */
-  display:inline-block;
-  clear: both;
-  margin-bottom: 8px;
-  padding: 12px;
-  padding-right: 1.5%;
-  padding-left: 1.5%;
-  border-radius: 8px;
-}
-
 #inv-block {
+  padding: 12px;
+  margin-bottom: 8px;
+  border-radius: 8px;
   color: transparent;
   background: transparent;
   float:left;
