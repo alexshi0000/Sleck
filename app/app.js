@@ -87,12 +87,12 @@ io.on('connection', (client) => {
   client.on('handle errors', (name, joined) => {
     if (exists_in(active_users, name) && !joined) {
       client.emit('error redirect') //dup username not allowed
-      var msg = 'The username ' + name + ' already exists. Please try something different'
+      var msg = 'The username: ' + name + ' already exists. Please try something different'
       error_message_stack.push(msg)
     }
     else if (name.length > USERNAME_CHAR_LIMIT && !joined) { //cannot accept names that are too long
       client.emit('error redirect')
-      var msg = 'The username ' + name + ' is too long. please use something under ' + USERNAME_CHAR_LIMIT + ' characters'
+      var msg = 'The username: ' + name + ' is too long. please use something under ' + USERNAME_CHAR_LIMIT + ' characters'
       error_message_stack.push(msg)
     }
     else {
@@ -154,27 +154,48 @@ io.on('connection', (client) => {
     if (next_line.length > 0) {
       text_token_arr.push(next_line)
     }
+
+    var j
+    for (j = 0; j < text_token_arr.length; j++) {
+      text_token_arr[j] = text_token_arr[j].trim()
+    }
+
     return text_token_arr //return lines
   }
 
   function sending_encoded_wrap_text(text_token_arr, to_self) {
+    console.log('    line #' + 0 + ' : ' + text_token_arr[0])
+    var whitespace = MSG_LEN_LIMIT - text_token_arr[0].length
+    if (to_self)
+      client.emit('send-self-top', text_token_arr[0], whitespace)
+    else
+      client.broadcast.emit('send-all-top', text_token_arr[0], whitespace)
+
+    var n = text_token_arr.length
     var i
-    for (i = 0; i < text_token_arr.length; i++) { //rudiment
+    for (i = 1; i < n-1; i++) { //rudiment
       console.log('    line #' + i + ' : ' + text_token_arr[i])
       var whitespace = MSG_LEN_LIMIT - text_token_arr[i].length
-      if (to_self) {
+      if (to_self)
         client.emit('send-self-middle', text_token_arr[i], whitespace)
-      }
-      else {
+      else
         client.broadcast.emit('send-all-middle', text_token_arr[i], whitespace)
-      }
     }
+
+    console.log('    line #' + (n - 1) + ' : ' + text_token_arr[n-1])
+    var whitespace = MSG_LEN_LIMIT - text_token_arr[n-1].length
+    if (to_self)
+      client.emit('send-self-bottom', text_token_arr[n-1], whitespace)
+    else
+      client.broadcast.emit('send-all-bottom', text_token_arr[n-1], whitespace)
   }
 
   client.on('send', (msg) => {
     if (msg.length > 0) {
+      var msg = msg.trim()
+      msg = msg.replace(/ +(?= )/g,'');
+      console.log('message sent: ' + msg)
       if (msg.length < MSG_LEN_LIMIT) {
-        console.log('message sent: ' + msg)
         client.emit('send-self', msg)
         //write on client side to handle this event
         client.broadcast.emit('send-all', people[client.id] + ' - ' + msg)
@@ -190,7 +211,8 @@ io.on('connection', (client) => {
   })
 
   client.on('disconnect', () => {
-    if (people.hasOwnProperty(client.id)) { //the client has to be defined for disconnect to continue
+    if (people.hasOwnProperty(client.id)) {
+      //the client has to be defined for disconnect to continue
       console.log('user has disconnected')
       var name = people[client.id]
       io.emit('send-all', name + ' has left the chat')

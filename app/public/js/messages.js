@@ -19,7 +19,11 @@ $(document).ready(() => {
     document.getElementById('inv-block').scrollIntoView(true);
   })
 
+  //for wrapped texts
+
   function gen_white_space(msg, whitespace) {
+    console.log('the msg ' + msg)
+    console.log('  was given ' + whitespace + ' spaces of whitespace')
     var ret = msg
     var i
     for (i = 0; i < whitespace; i++) {
@@ -28,12 +32,42 @@ $(document).ready(() => {
     return ret
   }
 
-  //for wrapped texts
-
-  socket.on('send-self-middle', (msg, whitespace) => { //texts from myself
+  //top cap
+  socket.on('send-self-top', (msg, whitespace) => { //texts from myself
     //add a list to the ul
     $('#messages li:last-child').remove()
-    $('#messages').append('<li class="send-self">' + gen_white_space(msg, whitespace) + '</li>')
+    $('#messages').append('<li class="send-self-top">' + gen_white_space(msg, whitespace) + '</li>')
+    console.log('message sent: ' + msg)
+
+    //nice hack because we can user the placeholder as an anchor to scroll page
+  })
+
+  socket.on('send-all-top', (msg, whitespace) => { //msgs from other people
+    $('#messages li:last-child').remove()
+    $('#messages').append('<li class="send-all-top">' + gen_white_space(msg, whitespace) + '</li>')
+    console.log('message sent: ' + msg)
+
+  })
+
+  //middle cap
+  socket.on('send-self-middle', (msg, whitespace) => { //texts from myself
+    //add a list to the ul
+    $('#messages').append('<li class="send-self-middle">' + gen_white_space(msg, whitespace) + '</li>')
+    console.log('message sent: ' + msg)
+
+    //nice hack because we can user the placeholder as an anchor to scroll page
+  })
+
+  socket.on('send-all-middle', (msg, whitespace) => { //msgs from other people
+    $('#messages').append('<li class="send-all-middle">' + gen_white_space(msg, whitespace) + '</li>')
+    console.log('message sent: ' + msg)
+
+  })
+
+  //bottom cap
+  socket.on('send-self-bottom', (msg, whitespace) => { //texts from myself
+    //add a list to the ul
+    $('#messages').append('<li class="send-self-bottom">' + gen_white_space(msg, whitespace) + '</li>')
     $('#messages').append($('<li id="inv-block">').text('/')) //buffer block
     console.log('message sent: ' + msg)
 
@@ -41,9 +75,8 @@ $(document).ready(() => {
     //nice hack because we can user the placeholder as an anchor to scroll page
   })
 
-  socket.on('send-all-middle', (msg, whitespace) => { //msgs from other people
-    $('#messages li:last-child').remove()
-    $('#messages').append('<li class="send-all">' + gen_white_space(msg, whitespace) + '</li>')
+  socket.on('send-all-bottom', (msg, whitespace) => { //msgs from other people
+    $('#messages').append('<li class="send-all-bottom">' + gen_white_space(msg, whitespace) + '</li>')
     $('#messages').append($('<li id="inv-block">').text('/'))
     console.log('message sent: ' + msg)
 
