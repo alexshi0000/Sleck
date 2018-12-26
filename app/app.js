@@ -1,3 +1,4 @@
+var path    = require('path')
 var express = require('express')
 var app     = express()
 var http    = require('http').Server(app)
@@ -8,16 +9,11 @@ var fs      = require('fs')
 
 require('./routes')(app) //app from express() and routes module is an external router
 
-app.use(express.static('public/'));
+app.use(express.static(__dirname + '/public/assets/propics'));
 
 app.get('*', (req, res) => {
   res.sendFile(__dirname + '/public/html/error.html')
   error_message_stack.push('404 - file not found')
-})
-
-app.get('/public/assets', (req, res) => {
-  console.log('     ' + req)
-  res.sendFile(req)
 })
 
 // ====================== Event Handling =======================================
@@ -70,7 +66,7 @@ io.on('connection', (client) => {
 
   function get_propic(location) {
     var files = fs.readdirSync(PROPIC_LOCATION)
-    return PROPIC_LOCATION + files[Math.floor(Math.random() * files.length)]
+    return files[Math.floor(Math.random() * files.length)]
   }
 
   client.on('join', (name) => {

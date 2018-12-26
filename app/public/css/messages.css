@@ -12,7 +12,7 @@
   padding-left: 1.5%;
 }
 
-#messages .send-all { /* class of lists devoid of self or all direction */
+#messages .send-all {
   margin-bottom: 8px;
   border-radius: 8px;
   color: #333;
@@ -20,7 +20,7 @@
   float:left;
 }
 
-#messages .send-self { /* class of lists devoid of self or all direction */
+#messages .send-self {
   margin-bottom: 8px;
   border-radius: 8px;
   color: #eee;
@@ -28,7 +28,7 @@
   float: right;
 }
 
-#messages .send-all-top { /* class of lists devoid of self or all direction */
+#messages .send-all-top {
   margin-bottom: 0px;
   border-radius: 8px 8px 0px 0px;
   color: #333;
@@ -36,7 +36,7 @@
   float:left;
 }
 
-#messages .send-self-top { /* class of lists devoid of self or all direction */
+#messages .send-self-top {
   margin-bottom: 0px;
   border-radius: 8px 8px 0px 0px;
   color: #eee;
@@ -44,7 +44,7 @@
   float: right;
 }
 
-#messages .send-all-middle { /* class of lists devoid of self or all direction */
+#messages .send-all-middle {
   margin-bottom: 0px;
   border-radius: 0px;
   color: #333;
@@ -52,7 +52,7 @@
   float:left;
 }
 
-#messages .send-self-middle { /* class of lists devoid of self or all direction */
+#messages .send-self-middle {
   margin-bottom: 0px;
   border-radius: 0px;
   color: #eee;
@@ -60,7 +60,7 @@
   float: right;
 }
 
-#messages .send-all-bottom { /* class of lists devoid of self or all direction */
+#messages .send-all-bottom {
   margin-bottom: 8px;
   border-radius: 0px 0px 8px 8px;
   color: #333;
@@ -68,7 +68,7 @@
   float:left;
 }
 
-#messages .send-self-bottom { /* class of lists devoid of self or all direction */
+#messages .send-self-bottom {
   margin-bottom: 8px;
   border-radius: 0px 0px 8px 8px;
   color: #eee;

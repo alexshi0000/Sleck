@@ -12,7 +12,7 @@ $(document).ready(() => {
 
   socket.on('send-all', (name, propic, msg) => { //msgs from other people
     $('#messages li:last-child').remove()
-    $('#messages').append('<li class="stamp"><img src="/home/lx_user/Documents/workspace/web/Sleck/app/public/assets/propics/parrot-tricolor.jpg">'+'</li>')
+    $('#messages').append('<li class="stamp"><img src=\"'+propic+'\"></li>')
     $('#messages').append($('<li class="send-all">').text(msg))
     $('#messages').append($('<li id="inv-block">').text('/'))
     console.log('message sent: ' + msg)

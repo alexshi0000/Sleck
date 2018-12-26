@@ -1,5 +1,11 @@
 module.exports = function(app) {
 
+  /*
+   * for added security i will be listing all the js css and html files seperatly
+   * from other assets such as pictures which are less vulnerable if routed
+   * incorrectly
+   */
+
   //index
   app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/html/index.html')
@@ -39,5 +45,10 @@ module.exports = function(app) {
   })
   app.get('/public/css/textfield.css', (req, res) => {
     res.sendFile(__dirname + '/public/css/textfield.css')
+  })
+
+  //assets
+  app.get('/public/assets/propics', (req, res) => {
+    res.sendFile(req)
   })
 }
