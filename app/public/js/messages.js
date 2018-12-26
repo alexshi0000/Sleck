@@ -35,7 +35,7 @@ $(document).ready(() => {
     var date = month_tostring[d.getMonth()]+' '+date_suffix(d.getDate())+' '+day_tostring[d.getDay()]+' '+digits(d.getHours())+':'+digits(d.getMinutes())
     var timenamestamp=name+', '+date
 
-    if (name != null && head) { //condition for first message in a thread before alternating
+    if (name != null && !head) { //condition for first message in a thread before alternating
       $('#messages').append(
       '<li class="stamp-self">\
           <div class="propicdiv-self"><img class="propic" src=\"'+propic+'\"></div>\

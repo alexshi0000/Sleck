@@ -196,6 +196,12 @@ io.on('connection', (client) => {
     return ret
   }
 
+  function is_head (person_name) {
+    if (peek_message_stack_person === person_name)
+      return true
+    return false
+  }
+
   client.on('send', (msg) => {
     if (msg.length > 0) {
       var msg = msg.trim()
