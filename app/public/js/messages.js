@@ -10,8 +10,9 @@ $(document).ready(() => {
     //nice hack because we can user the placeholder as an anchor to scroll page
   })
 
-  socket.on('send-all', (msg) => { //msgs from other people
+  socket.on('send-all', (name, propic, msg) => { //msgs from other people
     $('#messages li:last-child').remove()
+    $('#messages').append('<li class="stamp"><img src="/home/lx_user/Documents/workspace/web/Sleck/app/public/assets/propics/parrot-tricolor.jpg">'+'</li>')
     $('#messages').append($('<li class="send-all">').text(msg))
     $('#messages').append($('<li id="inv-block">').text('/'))
     console.log('message sent: ' + msg)
@@ -49,7 +50,7 @@ $(document).ready(() => {
     //nice hack because we can user the placeholder as an anchor to scroll page
   })
 
-  socket.on('send-all-top', (msg, whitespace) => { //msgs from other people
+  socket.on('send-all-top', (name, propic, msg, whitespace) => { //msgs from other people
     $('#messages li:last-child').remove()
     $('#messages').append('<li class="send-all-top">' + gen_white_space(msg, whitespace) + '</li>')
     console.log('message sent: ' + msg)

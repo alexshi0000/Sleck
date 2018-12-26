@@ -4,6 +4,8 @@ var http    = require('http').Server(app)
 var io      = require('socket.io')(http)
 var fs      = require('fs')
 
+// ======================== Routing ============================================
+
 require('./routes')(app) //app from express() and routes module is an external router
 
 app.use(express.static('public/'));
@@ -11,6 +13,11 @@ app.use(express.static('public/'));
 app.get('*', (req, res) => {
   res.sendFile(__dirname + '/public/html/error.html')
   error_message_stack.push('404 - file not found')
+})
+
+app.get('/public/assets', (req, res) => {
+  console.log('     ' + req)
+  res.sendFile(req)
 })
 
 // ====================== Event Handling =======================================
