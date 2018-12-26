@@ -156,10 +156,11 @@ io.on('connection', (client) => {
     console.log('    line #' + 0 + ' : ' + text_token_arr[0])
     var whitespace = WRAP_LEN - text_token_arr[0].length
     if (to_self)
-      client.emit('send-self-top', text_token_arr[0], whitespace)
+      client.emit('send-self-top',
+        people[client.id], propic[client.id], text_token_arr[0], whitespace)
     else
       client.broadcast.emit('send-all-top',
-        people[client.id], propic[client.id], text_token_arr[0], whitespace)
+        'You', propic[client.id], text_token_arr[0], whitespace)
 
     var n = text_token_arr.length
     var i
@@ -186,7 +187,7 @@ io.on('connection', (client) => {
       msg = msg.replace(/ +(?= )/g,'')
       console.log('message sent: ' + msg)
       if (msg.length < MSG_LEN_LIMIT) {
-        client.emit('send-self', msg)
+        client.emit('send-self', 'You', propic[client.id], msg)
         //write on client side to handle this event
         client.broadcast.emit('send-all', people[client.id], propic[client.id], msg)
         /*
@@ -211,7 +212,7 @@ io.on('connection', (client) => {
       //the client has to be defined for disconnect to continue
       console.log('user has disconnected')
       var name = people[client.id]
-      io.emit('send-all', null, null, name + ' has left the chat')
+      io.emit('send-all', name, propic[client.id], name + ' has left the chat')
 
       var index_person = active_users.indexOf(name)
       if (index_person > -1) {
