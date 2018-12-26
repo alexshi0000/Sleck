@@ -1,7 +1,50 @@
 $(document).ready(() => {
-  socket.on('send-self', (msg) => { //texts from myself
+
+  const month_tostring = ['Jan', 'Feb', 'April', 'March', 'May', 'June', 'July',
+                        'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
+  const day_tostring = ['Sun', 'Mond', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat']
+
+  function digits(numeric) {
+    if (numeric < 10)
+      return '0' + numeric
+    return numeric + ''
+  }
+
+  function date_suffix(numeric) {
+    var ending
+    var mod = numeric % 10;
+    switch (mod) {
+      case 1:
+        ending = 'st'
+      case 2:
+        ending = 'cd'
+      case 3:
+        ending = 'rd'
+      default:
+        ending = 'th'
+    }
+    return numeric + ending
+  }
+
+  socket.on('send-self', (name, propic, msg, head) => { //texts from myself
+    if (!joined) return false
     //add a list to the ul
     $('#messages li:last-child').remove()
+
+    //addding the timestamp, propic, and namestamp
+    var d = new Date();
+    var date = month_tostring[d.getMonth()]+' '+date_suffix(d.getDate())+' '+day_tostring[d.getDay()]+' '+digits(d.getHours())+':'+digits(d.getMinutes())
+    var timenamestamp=name+', '+date
+
+    if (name != null && !head) { //condition for first message in a thread before alternating
+      $('#messages').append(
+      '<li class="stamp-self">\
+          <div class="propicdiv-self"><img class="propic" src=\"'+propic+'\"></div>\
+          <div class="stamptext-self">'+timenamestamp+'</div>\
+       </li>'
+      )
+    }
+
     $('#messages').append($('<li class="send-self">').text(msg))
     $('#messages').append($('<li id="inv-block">').text('/')) //buffer block
     console.log('message sent: ' + msg)
@@ -10,8 +53,24 @@ $(document).ready(() => {
     //nice hack because we can user the placeholder as an anchor to scroll page
   })
 
-  socket.on('send-all', (msg) => { //msgs from other people
+  socket.on('send-all', (name, propic, msg, head) => { //msgs from other people
+    if (!joined) return false //catch this
     $('#messages li:last-child').remove()
+
+    //addding the timestamp, propic, and namestamp
+    var d = new Date();
+    var date = month_tostring[d.getMonth()]+' '+date_suffix(d.getDate())+' '+day_tostring[d.getDay()]+' '+digits(d.getHours())+':'+digits(d.getMinutes())
+    var timenamestamp=name+', '+date
+
+    if (name != null && !head) { //condition for first message in a thread before alternating
+      $('#messages').append(
+      '<li class="stamp">\
+          <div class="propicdiv"><img class="propic" src=\"'+propic+'\"></div>\
+          <div class="stamptext">'+timenamestamp+'</div>\
+       </li>'
+      )
+    }
+
     $('#messages').append($('<li class="send-all">').text(msg))
     $('#messages').append($('<li id="inv-block">').text('/'))
     console.log('message sent: ' + msg)
@@ -40,17 +99,52 @@ $(document).ready(() => {
    */
 
   //top cap
-  socket.on('send-self-top', (msg, whitespace) => { //texts from myself
+  socket.on('send-self-top', (name, propic, msg, whitespace, head) => { //texts from myself
+    if (!joined) return false
     //add a list to the ul
     $('#messages li:last-child').remove()
+
+
+
+    //addding the timestamp, propic, and namestamp
+    var d = new Date();
+    var date = month_tostring[d.getMonth()]+' '+date_suffix(d.getDate())+' '+day_tostring[d.getDay()]+' '+digits(d.getHours())+':'+digits(d.getMinutes())
+    var timenamestamp=name+', '+date
+
+    if (name != null && !head) { //condition for first message in a thread before alternating
+      $('#messages').append(
+      '<li class="stamp-self">\
+          <div class="propicdiv-self"><img class="propic" src=\"'+propic+'\"></div>\
+          <div class="stamptext-self">'+timenamestamp+'</div>\
+       </li>'
+      )
+    }
+
+
     $('#messages').append('<li class="send-self-top">' + gen_white_space(msg, whitespace) + '</li>')
     console.log('message sent: ' + msg)
 
     //nice hack because we can user the placeholder as an anchor to scroll page
   })
 
-  socket.on('send-all-top', (msg, whitespace) => { //msgs from other people
+  socket.on('send-all-top', (name, propic, msg, whitespace, head) => { //msgs from other people
+    if (!joined) return false
     $('#messages li:last-child').remove()
+
+    //addding the timestamp, propic, and namestamp
+    var d = new Date();
+    var date = month_tostring[d.getMonth()]+' '+date_suffix(d.getDate())+' '+day_tostring[d.getDay()]+' '+d.getHours()+':'+d.getMinutes()
+    var timenamestamp=name+', '+date
+
+    if (name != null && !head) { //condition for first message in a thread before alternating
+      $('#messages').append(
+      '<li class="stamp">\
+          <div class="propicdiv"><img class="propic" src=\"'+propic+'\"></div>\
+          <div class="stamptext">'+timenamestamp+'</div>\
+       </li>'
+      )
+    }
+
     $('#messages').append('<li class="send-all-top">' + gen_white_space(msg, whitespace) + '</li>')
     console.log('message sent: ' + msg)
 
@@ -58,6 +152,7 @@ $(document).ready(() => {
 
   //middle cap
   socket.on('send-self-middle', (msg, whitespace) => { //texts from myself
+    if (!joined) return false
     //add a list to the ul
     $('#messages').append('<li class="send-self-middle">' + gen_white_space(msg, whitespace) + '</li>')
     console.log('message sent: ' + msg)
@@ -66,6 +161,7 @@ $(document).ready(() => {
   })
 
   socket.on('send-all-middle', (msg, whitespace) => { //msgs from other people
+    if (!joined) return false
     $('#messages').append('<li class="send-all-middle">' + gen_white_space(msg, whitespace) + '</li>')
     console.log('message sent: ' + msg)
 
@@ -73,6 +169,7 @@ $(document).ready(() => {
 
   //bottom cap
   socket.on('send-self-bottom', (msg, whitespace) => { //texts from myself
+    if (!joined) return false
     //add a list to the ul
     $('#messages').append('<li class="send-self-bottom">' + gen_white_space(msg, whitespace) + '</li>')
     $('#messages').append($('<li id="inv-block">').text('/')) //buffer block
@@ -83,6 +180,7 @@ $(document).ready(() => {
   })
 
   socket.on('send-all-bottom', (msg, whitespace) => { //msgs from other people
+    if (!joined) return false
     $('#messages').append('<li class="send-all-bottom">' + gen_white_space(msg, whitespace) + '</li>')
     $('#messages').append($('<li id="inv-block">').text('/'))
     console.log('message sent: ' + msg)

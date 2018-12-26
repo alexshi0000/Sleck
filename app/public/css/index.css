@@ -5,10 +5,12 @@
 }
 
 body {
-  font: 16px "Lucida Console", Monaco, monospace
+  font: 18px "Lucida Console", Monaco, monospace
 }
 
 #chat {
+  padding-right: 2%;
+  padding-left: 2%;
   margin-left: 20%; /* same as the width of the sidebar */
   margin-bottom: 100px;
   width: 80%;

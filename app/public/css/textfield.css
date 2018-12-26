@@ -1,20 +1,33 @@
 #textfield {
-  padding: 0px;
-  background: #fff;
+  padding-right: 16%;
+  padding-left: 16%;
+  background: transparent;
   position: fixed;
   bottom: 0;
   width: 80%;
   margin-left: 20%;
+  margin-bottom: 1%;
 }
 
 #textfield input {
-  border: 0px; /* by default there is a really ugly border, make it flat */
-  background-color: #BBB;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  border: 1px; /* by default there is a really ugly border, make it flat */
+  background-color: #FFF;
   padding: 12px;
+  padding-right: 18px;
+  padding-left: 18px;
   width: 100%;
   margin-right: .5%;
   font-size: 18px;
-  color: #111;
+  color: #333;
+  border-radius: 20px;
+  border-color: #fff;
+  border-style: solid;
+
+  -webkit-box-shadow: rgba(0,0,0,0.4) 0px 0 14px;
+  -moz-box-shadow: rgba(0,0,0,0.4) 0 0 14px;
+  box-shadow: rgba(0,0,0,0.4) 0 0 14px;
 }
 
 /* chrome hack */

@@ -7,47 +7,6 @@ var fs      = require('fs')
 
 // ======================== Routing ============================================
 
-//index
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/html/index.html')
-})
-
-//js
-app.get('/public/js/socket.js', (req, res) => {
-  res.sendFile(__dirname + '/public/js/socket.js')
-})
-app.get('/public/js/textfield.js', (req, res) => {
-  res.sendFile(__dirname + '/public/js/textfield.js')
-})
-app.get('/public/js/messages.js', (req, res) => {
-  res.sendFile(__dirname + '/public/js/messages.js')
-})
-app.get('/public/js/sidebar.js', (req, res) => {
-  res.sendFile(__dirname + '/public/js/sidebar.js')
-})
-
-//css
-app.get('/public/css/index.css', (req, res) => {
-  res.sendFile(__dirname + '/public/css/index.css')
-})
-app.get('/public/css/messages.css', (req, res) => {
-  res.sendFile(__dirname + '/public/css/messages.css')
-})
-app.get('/public/css/sidebar.css', (req, res) => {
-  res.sendFile(__dirname + '/public/css/sidebar.css')
-})
-app.get('/public/css/textfield.css', (req, res) => {
-  res.sendFile(__dirname + '/public/css/textfield.css')
-})
-
-// error routing
-app.get('/public/html/error.html', (req, res) => {
-  res.sendFile(__dirname + '/public/html/error.html')
-})
-app.get('/public/js/error.js', (req, res) => {
-  res.sendFile(__dirname + '/public/js/error.js')
-})
-
 require('./routes')(app) //app from express() and routes module is an external router
 
 app.use(express.static(__dirname + '/public/assets/propics'));
@@ -68,6 +27,11 @@ var propic = {} //store string to profile pictures, generate random animal pics 
 var active_users = [] //string constants to list users
 var error_message_stack = [];
 var message_stack = []; //stack of messages
+
+function Message (name, msg) {
+  this.name = name;
+  this.msg  = msg;
+}
 
 // three different actions, join, send, and disconnect
 io.on('connection', (client) => {
@@ -112,12 +76,6 @@ io.on('connection', (client) => {
   }
 
   client.on('join', (name) => {
-
-    latest_message = new Object()
-    latest_message.name = 'nodejs server'
-    latest_message.msg  = 'join event'
-    message_stack.push(latest_message)
-
     people[client.id] = name
     propic[client.id] = get_propic(PROPIC_LOCATION)
     console.log('fetched new propic: ' + propic[client.id])
@@ -207,10 +165,10 @@ io.on('connection', (client) => {
     var whitespace = WRAP_LEN - text_token_arr[0].length
     if (to_self)
       client.emit('send-self-top',
-        'You', propic[client.id], text_token_arr[0], whitespace, is_head(people[client.id]))
+        'You', propic[client.id], text_token_arr[0], whitespace)
     else
       client.broadcast.emit('send-all-top',
-        people[client.id], propic[client.id], text_token_arr[0], whitespace, is_head(people[client.id]))
+        people[client.id], propic[client.id], text_token_arr[0], whitespace)
 
     var n = text_token_arr.length
     var i
@@ -233,15 +191,13 @@ io.on('connection', (client) => {
 
   function peek_message_stack_person() {
     var top_message = message_stack.pop()
-                      message_stack.push(top_message)
-    var ref
-    if (top_message != null)
-      ref = top_message.name
-    return ref
+    var ret = top_message.name
+    message_stack.push(top_message)
+    return ret
   }
 
   function is_head (person_name) {
-    if (peek_message_stack_person() === person_name)
+    if (peek_message_stack_person === person_name)
       return true
     return false
   }
@@ -252,12 +208,9 @@ io.on('connection', (client) => {
       msg = msg.replace(/ +(?= )/g,'') //remove double whitespace
       console.log('message sent: ' + msg)
       if (msg.length < MSG_LEN_LIMIT) {
-
-        client.emit('send-self',
-          'You', propic[client.id], msg, is_head(people[client.id]))
+        client.emit('send-self', 'You', propic[client.id], msg, is_head(people[client.id]))
         //write on client side to handle this event
-        client.broadcast.emit('send-all',
-          people[client.id], propic[client.id], msg, is_head(people[client.id]))
+        client.broadcast.emit('send-all', people[client.id], propic[client.id], msg)
         /*
          * ideally when sending your message to other people
          * then we would include the propic and some other things
@@ -273,20 +226,11 @@ io.on('connection', (client) => {
         sending_encoded_wrap_text(text_token_arr, false)
       }
 
-      latest_message = new Object()
-      latest_message.name = people[client.id]
-      latest_message.msg = msg
-      message_stack.push(latest_message) //encap and stack
+      message_stack.push(new Message(people[client.id], msg)) //encap and stack
     }
   })
 
   client.on('disconnect', () => {
-
-    latest_message = new Object()
-    latest_message.name = 'nodejs server'
-    latest_message.msg  = 'disconnect event'
-    message_stack.push(latest_message)
-
     if (people.hasOwnProperty(client.id)) {
       //the client has to be defined for disconnect to continue
       console.log('user has disconnected')
