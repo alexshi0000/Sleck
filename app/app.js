@@ -2,67 +2,25 @@ var express = require('express')
 var app     = express()
 var http    = require('http').Server(app)
 var io      = require('socket.io')(http)
+var fs      = require('fs')
 
-app.use(express.static('public'));
+require('./routes')(app) //app from express() and routes module is an external router
 
-// =========================== Routing =========================================
+app.use(express.static('public/'));
 
-/*
- * TODO create a node js module just for rerouting these resources.
- * im lazy now to do that but this is so freaking ugly helpppppp
- */
-
-//index
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/html/index.html')
-})
-
-//html
-app.get('/public/html/error.html', (req, res) => {
-  res.sendFile(__dirname + '/public/html/error.html')
-})
-
-//js
-app.get('/public/js/socket.js', (req, res) => {
-  res.sendFile(__dirname + '/public/js/socket.js')
-})
-app.get('/public/js/textfield.js', (req, res) => {
-  res.sendFile(__dirname + '/public/js/textfield.js')
-})
-app.get('/public/js/messages.js', (req, res) => {
-  res.sendFile(__dirname + '/public/js/messages.js')
-})
-app.get('/public/js/sidebar.js', (req, res) => {
-  res.sendFile(__dirname + '/public/js/sidebar.js')
-})
-app.get('/public/js/error.js', (req, res) => {
-  res.sendFile(__dirname + '/public/js/error.js')
-})
-
-//css
-app.get('/public/css/index.css', (req, res) => {
-  res.sendFile(__dirname + '/public/css/index.css')
-})
-app.get('/public/css/messages.css', (req, res) => {
-  res.sendFile(__dirname + '/public/css/messages.css')
-})
-app.get('/public/css/sidebar.css', (req, res) => {
-  res.sendFile(__dirname + '/public/css/sidebar.css')
-})
-app.get('/public/css/textfield.css', (req, res) => {
-  res.sendFile(__dirname + '/public/css/textfield.css')
-})
 app.get('*', (req, res) => {
   res.sendFile(__dirname + '/public/html/error.html')
   error_message_stack.push('404 - file not found')
-});
+})
 
 // ====================== Event Handling =======================================
 
 const USERNAME_CHAR_LIMIT = 20
 const MSG_LEN_LIMIT = 65
+const PROPIC_LOCATION = __dirname + '/public/assets/propics/'
 
 var people = {} //people object, client.id members -> name
+var propic = {} //store string to profile pictures, generate random animal pics :)
 var active_users = [] //string constants to list users
 var error_message_stack = [];
 
@@ -101,10 +59,20 @@ io.on('connection', (client) => {
     }
   })
 
+  // after joining chat
+
+  function get_propic(location) {
+    var files = fs.readdirSync(PROPIC_LOCATION)
+    return PROPIC_LOCATION + files[Math.floor(Math.random() * files.length)]
+  }
+
   client.on('join', (name) => {
     people[client.id] = name
+    propic[client.id] = get_propic(PROPIC_LOCATION)
+    console.log('fetched new propic: ' + propic[client.id])
+
     console.log(name + ' has joined the chat')
-    io.emit('send-all', name + ' has joined the chat')
+    io.emit('send-all', people[client.id], propic[client.id], name + ' has joined the chat')
 
     active_users.push(name)
     console.log('  users online: ' + active_users)
@@ -187,7 +155,8 @@ io.on('connection', (client) => {
     if (to_self)
       client.emit('send-self-top', text_token_arr[0], whitespace)
     else
-      client.broadcast.emit('send-all-top', text_token_arr[0], whitespace)
+      client.broadcast.emit('send-all-top',
+        people[client.id], propic[client.id], text_token_arr[0], whitespace)
 
     var n = text_token_arr.length
     var i
@@ -211,12 +180,18 @@ io.on('connection', (client) => {
   client.on('send', (msg) => {
     if (msg.length > 0) {
       var msg = msg.trim()
-      msg = msg.replace(/ +(?= )/g,'');
+      msg = msg.replace(/ +(?= )/g,'')
       console.log('message sent: ' + msg)
       if (msg.length < MSG_LEN_LIMIT) {
         client.emit('send-self', msg)
         //write on client side to handle this event
-        client.broadcast.emit('send-all', people[client.id] + ' - ' + msg)
+        client.broadcast.emit('send-all', people[client.id], propic[client.id], msg)
+        /*
+         * ideally when sending your message to other people
+         * then we would include the propic and some other things
+         * such as your name and msg. e.g namestamp and also possibly
+         * a time stamp
+         */
       }
       else {
         console.log('message is too long, had to wrap it')
@@ -233,7 +208,7 @@ io.on('connection', (client) => {
       //the client has to be defined for disconnect to continue
       console.log('user has disconnected')
       var name = people[client.id]
-      io.emit('send-all', name + ' has left the chat')
+      io.emit('send-all', null, null, name + ' has left the chat')
 
       var index_person = active_users.indexOf(name)
       if (index_person > -1) {
