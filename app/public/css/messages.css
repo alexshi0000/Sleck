@@ -14,24 +14,36 @@
 
 /* propic namestamp and timestamp */
 
-.propic {
-  float:left;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-}
-
-.nametimestamp {
-  float: right;
-}
-
 #messages .stamp {
-  max-height: 50px;
-  padding: 2px;
+  padding: 0px;
   margin-bottom: 2px;
   float: left;
   color: #AAA;
   background: transparent;
+}
+
+.propic {
+  background-position: center center;
+  background-repeat: no-repeat;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+
+.propicdiv {
+  display:inline;
+  float: left
+}
+
+.stamptext {
+  font-size: 12px;
+  text-align:center;
+  padding-top: 12px;
+  padding-right: 16px;
+  padding-left: 16px;
+  display:inline;
+  white-space:nowrap;
+  float: right;
 }
 
 /* sending messages :) */
