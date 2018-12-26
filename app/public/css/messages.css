@@ -12,6 +12,30 @@
   padding-left: 1.5%;
 }
 
+/* propic namestamp and timestamp */
+
+.propic {
+  float:left;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+}
+
+.nametimestamp {
+  float: right;
+}
+
+#messages .stamp {
+  max-height: 50px;
+  padding: 2px;
+  margin-bottom: 2px;
+  float: left;
+  color: #AAA;
+  background: transparent;
+}
+
+/* sending messages :) */
+
 #messages .send-all {
   margin-bottom: 8px;
   border-radius: 8px;
