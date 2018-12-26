@@ -11,11 +11,6 @@ module.exports = function(app) {
     res.sendFile(__dirname + '/public/html/index.html')
   })
 
-  //html
-  app.get('/public/html/error.html', (req, res) => {
-    res.sendFile(__dirname + '/public/html/error.html')
-  })
-
   //js
   app.get('/public/js/socket.js', (req, res) => {
     res.sendFile(__dirname + '/public/js/socket.js')
@@ -28,9 +23,6 @@ module.exports = function(app) {
   })
   app.get('/public/js/sidebar.js', (req, res) => {
     res.sendFile(__dirname + '/public/js/sidebar.js')
-  })
-  app.get('/public/js/error.js', (req, res) => {
-    res.sendFile(__dirname + '/public/js/error.js')
   })
 
   //css
@@ -45,10 +37,5 @@ module.exports = function(app) {
   })
   app.get('/public/css/textfield.css', (req, res) => {
     res.sendFile(__dirname + '/public/css/textfield.css')
-  })
-
-  //assets
-  app.get('/public/assets/propics', (req, res) => {
-    res.sendFile(req)
   })
 }

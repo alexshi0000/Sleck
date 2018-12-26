@@ -75,7 +75,7 @@
 
 #messages .send-all {
   margin-bottom: 8px;
-  border-radius: 8px;
+  border-radius: 5px;
   color: #333;
   background: #eee;
   float:left;
@@ -83,7 +83,7 @@
 
 #messages .send-self {
   margin-bottom: 8px;
-  border-radius: 8px;
+  border-radius: 5px;
   color: #eee;
   background: #333;
   float: right;
@@ -91,7 +91,7 @@
 
 #messages .send-all-top {
   margin-bottom: 0px;
-  border-radius: 8px 8px 0px 0px;
+  border-radius: 5px 5px 0px 0px;
   color: #333;
   background: #eee;
   float:left;
@@ -99,7 +99,7 @@
 
 #messages .send-self-top {
   margin-bottom: 0px;
-  border-radius: 8px 8px 0px 0px;
+  border-radius: 5px 5px 0px 0px;
   color: #eee;
   background: #333;
   float: right;
@@ -123,7 +123,7 @@
 
 #messages .send-all-bottom {
   margin-bottom: 8px;
-  border-radius: 0px 0px 8px 8px;
+  border-radius: 0px 0px 5px 5px;
   color: #333;
   background: #eee;
   float:left;
@@ -131,7 +131,7 @@
 
 #messages .send-self-bottom {
   margin-bottom: 8px;
-  border-radius: 0px 0px 8px 8px;
+  border-radius: 0px 0px 5px 5px;
   color: #eee;
   background: #333;
   float: right;
@@ -139,8 +139,8 @@
 
 #inv-block {
   padding: 12px;
-  margin-bottom: 8px;
-  border-radius: 8px;
+  margin-bottom: 3%;
+  border-radius: 5px;
   color: transparent;
   background: transparent;
   float:left;

@@ -9,6 +9,10 @@
   overflow-x: hidden;
   padding-top: 20px;
   font: 18px Helvetica, Arial;
+
+  -webkit-box-shadow: rgba(0,0,0,0.8) 0px 0 18px;
+  -moz-box-shadow: rgba(0,0,0,0.8) 0 0 18px;
+  box-shadow: rgba(0,0,0,0.8) 0 0 18px;
 }
 
 #sidebar-header {
