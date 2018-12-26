@@ -26,6 +26,7 @@ var people = {} //people object, client.id members -> name
 var propic = {} //store string to profile pictures, generate random animal pics :)
 var active_users = [] //string constants to list users
 var error_message_stack = [];
+var message_stack = []; //stack of messages
 
 // three different actions, join, send, and disconnect
 io.on('connection', (client) => {
@@ -82,6 +83,8 @@ io.on('connection', (client) => {
     client.emit('update-name', name)
     io.emit('update-active', active_users)
   })
+
+
 
   function split_large(txt) {
     var combo = 0 //once combo reaches MSG_LEN_LIMIT then set back to 0
@@ -157,10 +160,10 @@ io.on('connection', (client) => {
     var whitespace = WRAP_LEN - text_token_arr[0].length
     if (to_self)
       client.emit('send-self-top',
-        people[client.id], propic[client.id], text_token_arr[0], whitespace)
+        'You', propic[client.id], text_token_arr[0], whitespace)
     else
       client.broadcast.emit('send-all-top',
-        'You', propic[client.id], text_token_arr[0], whitespace)
+        people[client.id], propic[client.id], text_token_arr[0], whitespace)
 
     var n = text_token_arr.length
     var i
@@ -181,10 +184,12 @@ io.on('connection', (client) => {
       client.broadcast.emit('send-all-bottom', text_token_arr[n-1], whitespace)
   }
 
+  function peek_message_stack_person()
+
   client.on('send', (msg) => {
     if (msg.length > 0) {
       var msg = msg.trim()
-      msg = msg.replace(/ +(?= )/g,'')
+      msg = msg.replace(/ +(?= )/g,'') //remove double whitespace
       console.log('message sent: ' + msg)
       if (msg.length < MSG_LEN_LIMIT) {
         client.emit('send-self', 'You', propic[client.id], msg)
@@ -204,6 +209,8 @@ io.on('connection', (client) => {
         sending_encoded_wrap_text(text_token_arr, true)
         sending_encoded_wrap_text(text_token_arr, false)
       }
+
+      message_stack.push(new Message(people[client.id], msg)) //encap and stack
     }
   })
 
