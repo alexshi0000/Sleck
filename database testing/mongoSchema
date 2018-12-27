@@ -1,0 +1,13 @@
+var mongoose = require("mongoose");
+mongoose.connect("mongodb://localhost:27017/mongoTest", { useNewUrlParser: true });
+mongoose.Promise = global.Promise;
+
+var person = new mongoose.Schema({
+    firstName: String, 
+    lastName: String, 
+    number: Number
+})
+
+var person = mongoose.model("user", person);
+
+module.exports = person;
