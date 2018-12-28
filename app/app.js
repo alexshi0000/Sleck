@@ -95,106 +95,6 @@ io.on('connection', (client) => {
     io.emit('update-active', active_users)
   })
 
-
-
-  function split_large(txt) {
-    var combo = 0 //once combo reaches MSG_LEN_LIMIT then set back to 0
-    var ret = ''
-    var i
-    for (i = 0; i < txt.length; i++) {
-      if (txt.charAt(i) === ' ') {
-        combo = 0
-        ret += txt.charAt(i)
-      }
-      else if (combo >= MSG_LEN_LIMIT) {
-        combo = 0
-        ret += ' '
-        ret += txt.charAt(i)
-      }
-      else {
-        ret += txt.charAt(i)
-        combo++
-      }
-    }
-    return ret
-  }
-
-  function encode_to_wrapped(txt) {
-    var text_token_arr = []
-    var chop_text = split_large(txt).split(' ') //word tokens, custom split dammit
-    //console.log(chop_text) show chop text to debug
-
-    var next_line = ''
-    var i
-    for (i = 0; i < chop_text.length; i++) {
-      var next_tok = chop_text[i]
-      if (next_line.length + next_tok.length <= MSG_LEN_LIMIT) {
-        next_line += next_tok + ' '
-      }
-      else if (next_line.length > 0) {
-        text_token_arr.push(next_line)
-        next_line = chop_text[i] + ' '
-      }
-    }
-    if (next_line.length > 0) {
-      text_token_arr.push(next_line)
-    }
-
-    var j
-    for (j = 0; j < text_token_arr.length; j++) {
-      text_token_arr[j] = text_token_arr[j].trim()
-    }
-
-    return text_token_arr //return lines
-  }
-
-  function max(a, b) {
-    if (a > b)
-      return a
-    else
-      return b
-  }
-
-  function longest_string(arr) {
-    var i
-    var ret = 0
-    for (i = 0; i < arr.length; i++)
-      ret = max(arr[i].length, ret)
-    return ret
-  }
-
-  function sending_encoded_wrap_text(text_token_arr, to_self) {
-
-    const WRAP_LEN = longest_string(text_token_arr)
-
-    console.log('    line #' + 0 + ' : ' + text_token_arr[0])
-    var whitespace = WRAP_LEN - text_token_arr[0].length
-    if (to_self)
-      client.emit('send-self-top',
-        'You', propic[client.id], text_token_arr[0], whitespace, is_head(people[client.id]))
-    else
-      client.broadcast.emit('send-all-top',
-        people[client.id], propic[client.id], text_token_arr[0], whitespace, is_head(people[client.id]))
-
-    var n = text_token_arr.length
-    var i
-    for (i = 1; i < n-1; i++) { //rudiment
-      console.log('    line #' + i + ' : ' + text_token_arr[i])
-      var whitespace = WRAP_LEN - text_token_arr[i].length
-      if (to_self)
-        client.emit('send-self-middle', text_token_arr[i], whitespace)
-      else
-        client.broadcast.emit('send-all-middle', text_token_arr[i], whitespace)
-    }
-
-    console.log('    line #' + (n - 1) + ' : ' + text_token_arr[n-1])
-    var whitespace = WRAP_LEN - text_token_arr[n-1].length
-    if (to_self)
-      client.emit('send-self-bottom', text_token_arr[n-1], whitespace)
-    else
-      client.broadcast.emit('send-all-bottom', text_token_arr[n-1], whitespace)
-  }
-
   function peek_message_stack_person() {
     var top_message = message_stack.pop()
                       message_stack.push(top_message)
@@ -215,27 +115,18 @@ io.on('connection', (client) => {
       var msg = msg.trim()
       msg = msg.replace(/ +(?= )/g,'') //remove double whitespace
       console.log('message sent: ' + msg)
-      if (msg.length < MSG_LEN_LIMIT) {
 
-        client.emit('send-self',
-          'You', propic[client.id], msg, is_head(people[client.id]))
-        //write on client side to handle this event
-        client.broadcast.emit('send-all',
-          people[client.id], propic[client.id], msg, is_head(people[client.id]))
-        /*
-         * ideally when sending your message to other people
-         * then we would include the propic and some other things
-         * such as your name and msg. e.g namestamp and also possibly
-         * a time stamp
-         */
-      }
-      else {
-        console.log('message is too long, had to wrap it')
-        var text_token_arr = encode_to_wrapped(msg) //now do something with this
-        console.log('  message now looks like this: ')
-        sending_encoded_wrap_text(text_token_arr, true)
-        sending_encoded_wrap_text(text_token_arr, false)
-      }
+      client.emit('send-self',
+        'You', propic[client.id], msg, is_head(people[client.id]))
+      //write on client side to handle this event
+      client.broadcast.emit('send-all',
+        people[client.id], propic[client.id], msg, is_head(people[client.id]))
+      /*
+       * ideally when sending your message to other people
+       * then we would include the propic and some other things
+       * such as your name and msg. e.g namestamp and also possibly
+       * a time stamp
+       */
 
       latest_message = new Object()
       latest_message.name = people[client.id]
