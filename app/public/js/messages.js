@@ -91,6 +91,31 @@ $(document).ready(() => {
     return ret
   }
 
+
+
+  /*
+   * Here is the wrapped portion of code undergoing testing.
+   * Wrapping is a lot harder than expected, especially with monospace fonts
+   * I want to keep this wrapping done manually in javascript than using a css
+   * library because the application is expected to be used with markdown and
+   * productivity from sharing source code.
+   *
+   * remove the test snippets after
+   */
+
+
+
+  socket.on('send-self-wrapped', (name, propic, msg, head) => {
+
+  })
+
+  socket.on('send-all-wrapped', (name, propic, msg, head) => {
+
+  })
+
+
+
+
   /* some things to pay attention to:
    *   - only last child removed in send-self-top since thats the first line
    *     in the wrapped text bubble

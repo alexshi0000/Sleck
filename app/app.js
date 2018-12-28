@@ -163,6 +163,13 @@ io.on('connection', (client) => {
     return ret
   }
 
+  // ========= function undergoing testing with messages.js ====================
+  function send_wrap_text(text_token_arr, to_self) {
+
+  }
+
+
+  //legacy
   function sending_encoded_wrap_text(text_token_arr, to_self) {
 
     const WRAP_LEN = longest_string(text_token_arr)
