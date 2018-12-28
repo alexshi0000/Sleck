@@ -38,4 +38,12 @@ module.exports = function(app) {
   app.get('/public/css/textfield.css', (req, res) => {
     res.sendFile(__dirname + '/public/css/textfield.css')
   })
+
+  // error routing
+  app.get('/public/html/error.html', (req, res) => {
+    res.sendFile(__dirname + '/public/html/error.html')
+  })
+  app.get('/public/js/error.js', (req, res) => {
+    res.sendFile(__dirname + '/public/js/error.js')
+  })
 }
