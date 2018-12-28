@@ -26,24 +26,47 @@ $(document).ready(() => {
     return numeric + ending
   }
 
+
+  function add_stamp(name, propic, head, self) {
+    if (self) {
+      //addding the timestamp, propic, and namestamp
+      var d = new Date();
+      var date = month_tostring[d.getMonth()]+' '+date_suffix(d.getDate())+' '+day_tostring[d.getDay()]+' '+digits(d.getHours())+':'+digits(d.getMinutes())
+      var timenamestamp=name+', '+date
+
+      if (name != null && !head) { //condition for first message in a thread before alternating
+        $('#messages').append(
+        '<li class="stamp-self">\
+            <div class="propicdiv-self"><img class="propic" src=\"'+propic+'\"></div>\
+            <div class="stamptext-self">'+timenamestamp+'</div>\
+         </li>'
+        )
+      }
+    }
+    else {
+      //addding the timestamp, propic, and namestamp
+      var d = new Date();
+      var date = month_tostring[d.getMonth()]+' '+date_suffix(d.getDate())+' '+day_tostring[d.getDay()]+' '+d.getHours()+':'+d.getMinutes()
+      var timenamestamp=name+', '+date
+
+      if (name != null && !head) { //condition for first message in a thread before alternating
+        $('#messages').append(
+        '<li class="stamp">\
+            <div class="propicdiv"><img class="propic" src=\"'+propic+'\"></div>\
+            <div class="stamptext">'+timenamestamp+'</div>\
+         </li>'
+        )
+      }
+    }
+  }
+
+
   socket.on('send-self', (name, propic, msg, head) => { //texts from myself
     if (!joined) return false
     //add a list to the ul
     $('#messages li:last-child').remove()
 
-    //addding the timestamp, propic, and namestamp
-    var d = new Date();
-    var date = month_tostring[d.getMonth()]+' '+date_suffix(d.getDate())+' '+day_tostring[d.getDay()]+' '+digits(d.getHours())+':'+digits(d.getMinutes())
-    var timenamestamp=name+', '+date
-
-    if (name != null && !head) { //condition for first message in a thread before alternating
-      $('#messages').append(
-      '<li class="stamp-self">\
-          <div class="propicdiv-self"><img class="propic" src=\"'+propic+'\"></div>\
-          <div class="stamptext-self">'+timenamestamp+'</div>\
-       </li>'
-      )
-    }
+    add_stamp(name, propic, head, true)
 
     $('#messages').append($('<li class="send-self">').text(msg))
     $('#messages').append($('<li id="inv-block">').text('/')) //buffer block
@@ -57,156 +80,9 @@ $(document).ready(() => {
     if (!joined) return false //catch this
     $('#messages li:last-child').remove()
 
-    //addding the timestamp, propic, and namestamp
-    var d = new Date();
-    var date = month_tostring[d.getMonth()]+' '+date_suffix(d.getDate())+' '+day_tostring[d.getDay()]+' '+digits(d.getHours())+':'+digits(d.getMinutes())
-    var timenamestamp=name+', '+date
-
-    if (name != null && !head) { //condition for first message in a thread before alternating
-      $('#messages').append(
-      '<li class="stamp">\
-          <div class="propicdiv"><img class="propic" src=\"'+propic+'\"></div>\
-          <div class="stamptext">'+timenamestamp+'</div>\
-       </li>'
-      )
-    }
+    add_stamp(name, propic, head, false)
 
     $('#messages').append($('<li class="send-all">').text(msg))
-    $('#messages').append($('<li id="inv-block">').text('/'))
-    console.log('message sent: ' + msg)
-
-    document.getElementById('inv-block').scrollIntoView(true);
-  })
-
-  //for wrapped texts
-
-  function gen_white_space(msg, whitespace) {
-    console.log('the msg ' + msg)
-    console.log('  was given ' + whitespace + ' spaces of whitespace')
-    var ret = msg
-    var i
-    for (i = 0; i < whitespace; i++) {
-      ret += '&nbsp;'
-    }
-    return ret
-  }
-
-
-
-  /*
-   * Here is the wrapped portion of code undergoing testing.
-   * Wrapping is a lot harder than expected, especially with monospace fonts
-   * I want to keep this wrapping done manually in javascript than using a css
-   * library because the application is expected to be used with markdown and
-   * productivity from sharing source code.
-   *
-   * remove the test snippets after
-   */
-
-
-
-  socket.on('send-self-wrapped', (name, propic, msg, head) => {
-
-  })
-
-  socket.on('send-all-wrapped', (name, propic, msg, head) => {
-
-  })
-
-
-
-
-  /* some things to pay attention to:
-   *   - only last child removed in send-self-top since thats the first line
-   *     in the wrapped text bubble
-   *   - only add last child element in send-self-bottom
-   *   - keep css clean
-   */
-
-  //top cap
-  socket.on('send-self-top', (name, propic, msg, whitespace, head) => { //texts from myself
-    if (!joined) return false
-    //add a list to the ul
-    $('#messages li:last-child').remove()
-
-
-
-    //addding the timestamp, propic, and namestamp
-    var d = new Date();
-    var date = month_tostring[d.getMonth()]+' '+date_suffix(d.getDate())+' '+day_tostring[d.getDay()]+' '+digits(d.getHours())+':'+digits(d.getMinutes())
-    var timenamestamp=name+', '+date
-
-    if (name != null && !head) { //condition for first message in a thread before alternating
-      $('#messages').append(
-      '<li class="stamp-self">\
-          <div class="propicdiv-self"><img class="propic" src=\"'+propic+'\"></div>\
-          <div class="stamptext-self">'+timenamestamp+'</div>\
-       </li>'
-      )
-    }
-
-
-    $('#messages').append('<li class="send-self-top">' + gen_white_space(msg, whitespace) + '</li>')
-    console.log('message sent: ' + msg)
-
-    //nice hack because we can user the placeholder as an anchor to scroll page
-  })
-
-  socket.on('send-all-top', (name, propic, msg, whitespace, head) => { //msgs from other people
-    if (!joined) return false
-    $('#messages li:last-child').remove()
-
-    //addding the timestamp, propic, and namestamp
-    var d = new Date();
-    var date = month_tostring[d.getMonth()]+' '+date_suffix(d.getDate())+' '+day_tostring[d.getDay()]+' '+d.getHours()+':'+d.getMinutes()
-    var timenamestamp=name+', '+date
-
-    if (name != null && !head) { //condition for first message in a thread before alternating
-      $('#messages').append(
-      '<li class="stamp">\
-          <div class="propicdiv"><img class="propic" src=\"'+propic+'\"></div>\
-          <div class="stamptext">'+timenamestamp+'</div>\
-       </li>'
-      )
-    }
-
-    $('#messages').append('<li class="send-all-top">' + gen_white_space(msg, whitespace) + '</li>')
-    console.log('message sent: ' + msg)
-
-  })
-
-  //middle cap
-  socket.on('send-self-middle', (msg, whitespace) => { //texts from myself
-    if (!joined) return false
-    //add a list to the ul
-    $('#messages').append('<li class="send-self-middle">' + gen_white_space(msg, whitespace) + '</li>')
-    console.log('message sent: ' + msg)
-
-    //nice hack because we can user the placeholder as an anchor to scroll page
-  })
-
-  socket.on('send-all-middle', (msg, whitespace) => { //msgs from other people
-    if (!joined) return false
-    $('#messages').append('<li class="send-all-middle">' + gen_white_space(msg, whitespace) + '</li>')
-    console.log('message sent: ' + msg)
-
-  })
-
-  //bottom cap
-  socket.on('send-self-bottom', (msg, whitespace) => { //texts from myself
-    if (!joined) return false
-    //add a list to the ul
-    $('#messages').append('<li class="send-self-bottom">' + gen_white_space(msg, whitespace) + '</li>')
-    $('#messages').append($('<li id="inv-block">').text('/')) //buffer block
-    console.log('message sent: ' + msg)
-
-    document.getElementById('inv-block').scrollIntoView(true);
-    //nice hack because we can user the placeholder as an anchor to scroll page
-  })
-
-  socket.on('send-all-bottom', (msg, whitespace) => { //msgs from other people
-    if (!joined) return false
-    $('#messages').append('<li class="send-all-bottom">' + gen_white_space(msg, whitespace) + '</li>')
     $('#messages').append($('<li id="inv-block">').text('/'))
     console.log('message sent: ' + msg)
 
