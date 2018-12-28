@@ -1,0 +1,55 @@
+html, body{
+    margin: 0;
+    background-image: url("majestic.jpg") ;
+    background-size: auto;
+    background-repeat: no-repeat;
+}
+
+#signin{
+    height: 400px;
+    width: 500px;
+    background-color: black;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.5);;
+}
+
+#title{
+    height: 75px;
+    width: 500px;
+    background-color: aqua;
+}
+
+#title a{
+    font-size: 50px;
+    font-family: 'Poppins', sans-serif;
+    left: 50%;
+    transform: translate(-50%, 0);
+    position: absolute;
+}
+
+#nameInput{
+    height: 30px;
+    width: 200px;
+    background-color: transparent;
+    border: transparent;
+    border-bottom: solid white;
+    position: absolute;
+    right: 50%;
+    top: 150px;
+    transform: translate(50%, 0)
+}
+
+#emailInput{
+    height: 30px;
+    width: 200px;
+    background-color: transparent;
+    border: transparent;
+    border-bottom: solid white;
+    position: absolute;
+    right: 50%;
+    top: 250px;
+    transform: translate(50%, 0)
+}
