@@ -24,6 +24,12 @@ module.exports = function(app) {
   app.get('/public/js/sidebar.js', (req, res) => {
     res.sendFile(__dirname + '/public/js/sidebar.js')
   })
+  app.get('/public/js/login.js', (req, res) => {
+    res.sendFile(__dirname + '/public/js/login.js')
+  })
+  app.get('/public/js/register.js', (req, res) => {
+    res.sendFile(__dirname + '/public/js/register.js')
+  })
 
   //css
   app.get('/public/css/index.css', (req, res) => {
@@ -38,6 +44,12 @@ module.exports = function(app) {
   app.get('/public/css/textfield.css', (req, res) => {
     res.sendFile(__dirname + '/public/css/textfield.css')
   })
+  app.get('/public/css/login.css', (req, res) => {
+    res.sendFile(__dirname + '/public/css/login.css')
+  })
+  app.get('/public/css/register.css', (req, res) => {
+    res.sendFile(__dirname + '/public/css/register.css')
+  })
 
   // error routing
   app.get('/public/html/error.html', (req, res) => {
@@ -45,5 +57,13 @@ module.exports = function(app) {
   })
   app.get('/public/js/error.js', (req, res) => {
     res.sendFile(__dirname + '/public/js/error.js')
+  })
+
+  //login and register pages
+  app.get('/public/html/login.html', (req, res) => {
+    res.sendFile(__dirname + '/public/html/login.html')
+  })
+  app.get('/public/html/register.html', (req, res) => {
+    res.sendFile(__dirname + '/public/html/register.html')
   })
 }

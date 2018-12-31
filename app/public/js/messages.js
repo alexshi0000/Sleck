@@ -71,6 +71,7 @@ $(document).ready(() => {
     $('#messages').append($('<li class="send-self">').text(msg))
     $('#messages').append($('<li id="inv-block">').text('/')) //buffer block
     console.log('message sent: ' + msg)
+    console.log('  propic: '+propic)
 
     document.getElementById('inv-block').scrollIntoView(true);
     //nice hack because we can user the placeholder as an anchor to scroll page

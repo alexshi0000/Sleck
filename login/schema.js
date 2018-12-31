@@ -2,9 +2,9 @@ var mongoose = require("mongoose");
 
 
 var userSchema = new mongoose.Schema({
-    firstName: String, 
-    lastName: String, 
-    nickName: String, 
+    firstName: String,
+    lastName: String,
+    nickName: String,
     propic: {data: Buffer, contentType: String}
 });
 
