@@ -7,7 +7,7 @@ module.exports = function(app) {
    */
 
   //index
-  app.get('/', (req, res) => {
+  app.get('/public/html/index.html', (req, res) => {
     res.sendFile(__dirname + '/public/html/index.html')
   })
 

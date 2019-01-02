@@ -14,7 +14,7 @@
 
     <link rel = 'stylesheet' href = '/public/css/register.css'>
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
-    <!-- <script>
+    <!-- <script> migrated this to ext css or replaced with bootstrap
       $(document).ready(function(){
         $('#submit').hover(function(){
           $(this).css('background-color', 'rgba(100, 100, 100, 0.5)')
@@ -31,9 +31,12 @@
       <div id='title'>
         Sleck Chatroom
       </div>
-      <form id='login-form' method='post' action='/addChatroom'>
-        <input id='nameInput' type='text' name='name' placeholder='name'>
-        <input id='emailInput' type='email' name='email' placeholder='email'>
+      <form id='login-form' method='post' action='/add_chatroom'>
+        <input id='nameInput' type='text' name='name' placeholder='Name of Chatroom' autocomplete='off'>
+        <input id='emailInput' type='email' name='email' placeholder='Your Email' autocomplete='off'>
+        <p id='chatLink'>chat link:
+          <a href='/'>http://www.sleckchat.com/dw351paw1xytz</a>
+        </p>
         <button id='submit' type="button" class="btn btn-dark">Submit</button>
       </form>
     </div>

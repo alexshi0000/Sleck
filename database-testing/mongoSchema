@@ -3,8 +3,8 @@ mongoose.connect("mongodb://localhost:27017/mongoTest", { useNewUrlParser: true 
 mongoose.Promise = global.Promise;
 
 var person = new mongoose.Schema({
-    firstName: String, 
-    lastName: String, 
+    firstName: String,
+    lastName: String,
     number: Number
 })
 
