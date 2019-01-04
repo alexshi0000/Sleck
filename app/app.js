@@ -16,7 +16,7 @@ require('./routes')(app) //app from express() and routes module is an external r
 
 app.use(express.static(__dirname + '/public/assets/propics')); //shorten url for images
 app.use(express.static(__dirname + '/public/assets/website'));
-app.use(express.static(__dirname + '/public/html/'));
+app.use(express.static(__dirname + '/public/html'));
 
 app.get('*', (req, res) => {
   error_message_stack.push('404 - file not found')
