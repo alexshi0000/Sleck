@@ -75,7 +75,7 @@ body, html {
   transform: translate(50%, 0);
 
   color: rgba(255,255,255,1);
-  font-size: 28px;
+  font-size: 30px;
   font-family: 'Poiret One', cursive;
   -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.3); /* GREAT ANTIALIASING HACK */
 }
@@ -95,7 +95,7 @@ body, html {
   transform: translate(50%, 0);
 
   color: rgba(255,255,255,1);
-  font-size: 28px;
+  font-size: 30px;
   font-family: 'Poiret One', cursive;
   -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.3); /* GREAT ANTIALIASING HACK */
 }
@@ -132,24 +132,24 @@ body, html {
   font-size: 19px;
 
   font-family: 'Poiret One', cursive;
-  -webkit-text-stroke: 1.1px rgba(255, 255, 255, 0.3); /* GREAT ANTIALIASING HACK */
+  -webkit-text-stroke: 1.2px rgba(255, 255, 255, 0.3); /* GREAT ANTIALIASING HACK */
 }
 
 a:link {
-  color: rgba(95,125,255,0.8);
+  color: rgba(200,200,255,0.8);
 }
 
 a:hover {
-  color: rgba(95,115,255,1);
+  color: rgba(200,200,255,1);
   text-decoration: none;
 }
 
 a:active {
-  color: rgba(95,125,255,0.8);
+  color: rgba(200,200,255,0.8);
 }
 
 a:visited {
-  color: rgba(95,125,255,0.8);
+  color: rgba(200,200,255,0.8);
 }
 
 /*
