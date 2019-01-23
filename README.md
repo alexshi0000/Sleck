@@ -7,6 +7,7 @@ Simple, easy to use productivity-based chat designed for teams and individuals a
 - JQuery
 - Bootstrap
 - MongoDB
+- Socket.io
 
 ## Screenshots
 ![alt text](https://github.com/alexshi0000/Sleck/blob/master/doc/register.png)
