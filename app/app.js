@@ -5,6 +5,17 @@ var http    = require('http').Server(app)
 var io      = require('socket.io')(http)
 var fs      = require('fs')
 
+/*
+ * TODO
+ *   - change the error using post / get requests instead of using socketio
+ *   - design the chatroom http request system, tokens & md5 hash?
+ *   - add the code for MongoDB for storing chatrooms
+ *   - use socketio to have different rooms
+ *
+ * CHANGELOG
+ *
+ */
+
 // ======================== Routing ============================================
 
 //index
@@ -23,6 +34,8 @@ app.get('*', (req, res) => {
   res.sendFile(__dirname + '/public/html/error.html')
 })
 
+// ======================= MongoDB =============================================
+
 // ====================== Event Handling =======================================
 
 const USERNAME_CHAR_LIMIT = 20
@@ -30,7 +43,7 @@ const MSG_LEN_LIMIT = 65
 const PROPIC_LOCATION = __dirname + '/public/assets/propics/'
 
 var people = {} //people object, client.id members -> name
-var propic = {} //store string to profile pictures, generate random animal pics :)
+var propic = {} //store string to profile pictures, generate random animal pics
 var active_users = [] //string constants to list users
 var error_message_stack = [];
 var message_stack = []; //stack of messages
@@ -78,7 +91,6 @@ io.on('connection', (client) => {
   }
 
   client.on('join', (name) => {
-
     latest_message = new Object()
     latest_message.name = 'nodejs server'
     latest_message.msg  = 'join event'
@@ -123,6 +135,7 @@ io.on('connection', (client) => {
       //write on client side to handle this event
       client.broadcast.emit('send-all',
         people[client.id], propic[client.id], msg, is_head(people[client.id]))
+
       /*
        * ideally when sending your message to other people
        * then we would include the propic and some other things
