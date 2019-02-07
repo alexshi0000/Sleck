@@ -4,7 +4,9 @@
   "description": "create a simple chat application that serves as a learning tool for nodejs and react",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "localhost": "google-chrome --new-window http://localhost:3000"
   },
   "repository": {
     "type": "git",
