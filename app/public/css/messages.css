@@ -12,7 +12,7 @@
   padding-left: 1.25%;
 
   max-width: 50%;
-  word-wrap: break-word;
+  word-break: break-all;
 }
 
 /* ================= propic namestamp and timestamp ==========================*/
