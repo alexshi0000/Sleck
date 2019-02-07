@@ -1,4 +1,4 @@
-module.exports = function(app) {
+module.exports = (app) => {
 
   /*
    * for added security i will be listing all the js css and html files seperatly
