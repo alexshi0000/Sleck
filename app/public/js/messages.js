@@ -1,7 +1,7 @@
 $(document).ready(() => {
   const month_tostring = ['Jan', 'Feb', 'April', 'March', 'May', 'June', 'July',
                         'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
-  const day_tostring = ['Sun', 'Mond', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat']
+  const day_tostring = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat']
 
   function digits(numeric) {
     if (numeric < 10)
