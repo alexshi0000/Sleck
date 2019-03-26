@@ -1,5 +1,4 @@
 $(document).ready(() => {
-
   const month_tostring = ['Jan', 'Feb', 'April', 'March', 'May', 'June', 'July',
                         'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
   const day_tostring = ['Sun', 'Mond', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat']
@@ -26,10 +25,14 @@ $(document).ready(() => {
     return numeric + ending
   }
 
-
+  /*
+   * pay close attention here, we can actually make this code better by using react
+   * and making sure to reuse UI elements to save time as well as make this
+   * more clean to read
+   */
   function add_stamp(name, propic, head, self) {
     if (self) {
-      //addding the timestamp, propic, and namestamp
+      //adding the timestamp, propic, and namestamp
       var d = new Date();
       var date = month_tostring[d.getMonth()]+' '+date_suffix(d.getDate())+' '+day_tostring[d.getDay()]+' '+digits(d.getHours())+':'+digits(d.getMinutes())
       var timenamestamp=name+', '+date
@@ -59,7 +62,6 @@ $(document).ready(() => {
       }
     }
   }
-
 
   socket.on('send-self', (name, propic, msg, head) => { //texts from myself
     if (!joined) return false

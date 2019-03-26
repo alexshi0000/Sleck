@@ -78,7 +78,6 @@ io.on('connection', (client) => {
   }
 
   client.on('join', (name) => {
-
     latest_message = new Object()
     latest_message.name = 'nodejs server'
     latest_message.msg  = 'join event'
